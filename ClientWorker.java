@@ -18,10 +18,8 @@ class ClientWorker implements Runnable {
     BufferedReader in = null;
     PrintWriter out = null;
     try{
-      in = new BufferedReader(new 
-        InputStreamReader(client.getInputStream()));
-      out = new 
-        PrintWriter(client.getOutputStream(), true);
+      in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+      out = new PrintWriter(client.getOutputStream(), true);
     } catch (IOException e) {
       System.out.println("in or out failed");
       System.exit(-1);
