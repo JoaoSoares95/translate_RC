@@ -1,3 +1,8 @@
+import java.net.*;
+import java.io.*;
+import java.lang.*;
+import javax.swing.JTextArea;
+
 class ClientWorker implements Runnable {
   private Socket client;
   private JTextArea textArea;
