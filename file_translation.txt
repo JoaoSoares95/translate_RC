@@ -1,0 +1,6 @@
+Mouse.jpg Rato.jpg
+Text.jpg Texto.jpg
+Chair.jpg Cadeira.jpg
+PopCorn.jpg Pipoca.jpg
+Chocolate.jpg Chocolate.jpg
+Music.jpg Musica.jpg
