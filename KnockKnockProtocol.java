@@ -26,26 +26,36 @@ public class KnockKnockProtocol {
         if (state == WAITING) {
             theOutput = "Knock! Knock!";
             state = SENTKNOCKKNOCK;
-        } else if (state == SENTKNOCKKNOCK) {
+        } 
+        
+        else if (state == SENTKNOCKKNOCK) {
             if (theInput.equalsIgnoreCase("Who's there?")) {
                 theOutput = clues[currentJoke];
                 state = SENTCLUE;
-            } else {
+            } 
+            
+            else {
                 theOutput = "You're supposed to say \"Who's there?\"! " +
 			    "Try again. Knock! Knock!";
             }
-        } else if (state == SENTCLUE) {
+        } 
+
+        else if (state == SENTCLUE) {
             if (theInput.equalsIgnoreCase(clues[currentJoke] + " who?")) {
                 theOutput = answers[currentJoke] + " Want another? (y/n)";
                 state = ANOTHER;
-            } else {
+            } 
+
+            else {
                 theOutput = "You're supposed to say \"" + 
 			    clues[currentJoke] + 
 			    " who?\"" + 
 			    "! Try again. Knock! Knock!";
                 state = SENTKNOCKKNOCK;
             }
-        } else if (state == ANOTHER) {
+        } 
+
+        else if (state == ANOTHER) {
             if (theInput.equalsIgnoreCase("y")) {
                 theOutput = "Knock! Knock!";
                 if (currentJoke == (NUMJOKES - 1))
@@ -53,7 +63,9 @@ public class KnockKnockProtocol {
                 else
                     currentJoke++;
                 state = SENTKNOCKKNOCK;
-            } else {
+            } 
+
+            else {
                 theOutput = "Bye.";
                 state = WAITING;
             }
