@@ -11,7 +11,6 @@ public class GreetingClient {
             String serverName = "localhost", mensagem="random";
             int port = 58045, total=args.length , i;
             Scanner user_input = new Scanner( System.in );
-            System.out.println("penis1");
 
             for (i=0;i<total ;i=i+2 ){
                   if (args[i].equals("-n")){
@@ -23,10 +22,8 @@ public class GreetingClient {
                   }
             }
 
-            System.out.println("penis2");
 
             while(!(mensagem.equals("exit"))){
-                  System.out.println("penis3");
                   System.out.println("Mensagem a enviar: \n");
                   mensagem = user_input.next();
                   try {
@@ -47,6 +44,5 @@ public class GreetingClient {
                         e.printStackTrace();
                   }
             }
-            System.out.println("penis4");
       }
 }
