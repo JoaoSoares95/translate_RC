@@ -13,7 +13,12 @@ class UDPClient {
             byte[] receiveData = new byte[1024];
             
             String sentence = inFromUser.readLine();
+
+            System.out.println("sentence: " + sentence);
+
             sendData = sentence.getBytes();
+
+            System.out.println("sendData: " + sendData);
             
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
             clientSocket.send(sendPacket);
