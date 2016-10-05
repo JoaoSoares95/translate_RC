@@ -24,7 +24,7 @@ public class GreetingClient {
 
 
             while(!(mensagem.equals("exit"))){
-                  System.out.println("Mensagem a enviar: \n");
+                  System.out.println("Mensagem a enviar: ");
                   mensagem = user_input.next();
                   try {
                         System.out.println("Connecting to " + serverName + " on port " + port);
