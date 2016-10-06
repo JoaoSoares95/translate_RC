@@ -5,24 +5,27 @@ class UDPServer{
 
       public static void main(String args[]) throws Exception{
 
-            DatagramSocket serverSocket = new DatagramSocket(9876);
-            byte[] receiveData = new byte[1024];
-            byte[] sendData = new byte[1024];
+                  DatagramSocket serverSocket = new DatagramSocket(9876);
+                  
             
 
             while (true){
-
-                  String help = "";
+            
+                  byte[] receiveData = new byte[1024];
+                  byte[] sendData = new byte[1024];
+                  String sentence = "";
 
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   serverSocket.receive(receivePacket);
 
-                  String sentence = new String( receivePacket.getData());
+                  sentence = new String( receivePacket.getData());
                   System.out.println("RECEIVED: " + sentence);
 
-                  help=sentence;
+                  String help=sentence;
+                  System.out.println("-----------ddddddddddd---- " + help.equals("exit"));
 
-                  if (sentence.equals("exit\n")) {
+
+                  if (help.equalsIgnoreCase("exit")) {
                         System.out.println("Saiu");
                         break;
                   }
