@@ -4,11 +4,14 @@ import java.net.*;
 class UDPServer{
 
       public static void main(String args[]) throws Exception{
+            int tcs_port = 58045;
 
-                  DatagramSocket serverSocket = new DatagramSocket(9876);
-                  
+            if (args.length==2 && args[0].equals("-p")){
+                  tcs_port = Integer.parseInt(args[1]);
+;            }
             
-
+            DatagramSocket serverSocket = new DatagramSocket(tcs_port);
+                  
             while (true){
             
                   byte[] receiveData = new byte[1024];
@@ -18,24 +21,14 @@ class UDPServer{
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   serverSocket.receive(receivePacket);
 
+                  System.out.println("receiveData : ----------------- " + receiveData);
+
                   sentence = new String( receivePacket.getData());
+
                   System.out.println("RECEIVED: " + sentence);
 
-                  String help=sentence;
-                  System.out.println("-----------ddddddddddd---- " + help.equals("exit"));
+                  String[] help = sentence.split("\\W");
 
-
-                  if (help.equalsIgnoreCase("exit")) {
-                        System.out.println("Saiu");
-                        break;
-                  }
-
-                  else{
-                        System.out.println("--------------- " + sentence.equals("exit"));
-                        System.out.println("rip::::::::::: " + sentence);
-                        System.out.println("nao percebo nada disto");
-                  }
-                  
                   InetAddress IPAddress = receivePacket.getAddress();
 
                   System.out.println("IPAddress: " + IPAddress);
@@ -56,6 +49,17 @@ class UDPServer{
                   serverSocket.send(sendPacket);
 
                   System.out.println("sendPacket: " + sendPacket);
+
+                  if (help[0].equals("exit") && help.length==1) {
+                        System.out.println("Saiu");
+                        break;
+                  }
+
+                  else{
+                        System.out.println("--------------- " + help[0].equals("exit"));
+                        System.out.println("rip::::::::::: " + help.length );
+                        System.out.println("nao percebo nada disto " + help[0].length());
+                  }
 
             }
 
