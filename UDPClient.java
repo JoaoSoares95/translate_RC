@@ -3,32 +3,44 @@ import java.net.*;
 
 class UDPClient {
       public static void main(String args[]) throws Exception {
-            BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+            while(true){
+                  
+                  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+                  
+                  DatagramSocket clientSocket = new DatagramSocket();
+                  
+                  InetAddress IPAddress = InetAddress.getByName("localhost");
+                  
+                  byte[] sendData = new byte[1024];
+                  byte[] receiveData = new byte[1024];
             
-            DatagramSocket clientSocket = new DatagramSocket();
-            
-            InetAddress IPAddress = InetAddress.getByName("localhost");
-            
-            byte[] sendData = new byte[1024];
-            byte[] receiveData = new byte[1024];
-            
-            String sentence = inFromUser.readLine();
+                  String sentence = inFromUser.readLine();
 
-            System.out.println("sentence: " + sentence);
+                  System.out.println("sentence: " + sentence);
 
-            sendData = sentence.getBytes();
+                  sendData = sentence.getBytes();
 
-            System.out.println("sendData: " + sendData);
+                  System.out.println("sendData: " + sendData);
+                  
+                  DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
+                  clientSocket.send(sendPacket);
+                  
+                  DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                  clientSocket.receive(receivePacket);
+
+                  String modifiedSentence = new String(receivePacket.getData());
+                  System.out.println("FROM SERVER:" + modifiedSentence);
+                  
+                  if (sentence.equals("exit")) {
+                        System.out.println("sentence:::::::::: " + sentence);
+                        break;
+                        
+                  }
+                  
+                  sentence="";
+                  clientSocket.close();
+            }
             
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
-            clientSocket.send(sendPacket);
             
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            clientSocket.receive(receivePacket);
-            
-            String modifiedSentence = new String(receivePacket.getData());
-            System.out.println("FROM SERVER:" + modifiedSentence);
-            
-            clientSocket.close();
       }
 }
