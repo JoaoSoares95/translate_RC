@@ -11,18 +11,17 @@ class UDPClient {
                   
                   InetAddress IPAddress = InetAddress.getByName("localhost");
                   
-                  byte[] sendData = new byte[1024];
                   byte[] receiveData = new byte[1024];
             
                   String sentence = inFromUser.readLine();
 
                   System.out.println("sentence: " + sentence);
 
-                  sendData = sentence.getBytes();
+                  byte[] sendData = sentence.getBytes();
 
                   System.out.println("sendData: " + sendData);
                   
-                  DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
+                  DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 58045);
                   clientSocket.send(sendPacket);
                   
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
