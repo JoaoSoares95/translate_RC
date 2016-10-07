@@ -17,28 +17,35 @@ public class usr{
 		byte[] receiveData = new byte[1024];
 		
 		String sentence1 = inFromUser.readLine();
+		sendData = sentence1.getBytes();
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
+		clientSocket.send(sendPacket);
+		
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		clientSocket.receive(receivePacket);
+		String modifiedSentence = new String(receivePacket.getData());
+		System.out.println("FROM SERVER:" + modifiedSentence);
+		
 		
 		//while message not "exit";
 		while (!(sentence1.equals("exit"))){
 			//read input from comand line;
 			String sentence = inFromUser.readLine();
 			sendData = sentence.getBytes();
-			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
-			clientSocket.send(sendPacket);
-			
-			//sendPacket.delete(0,sendPacket.length());
-			
-			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			/*DatagramPacket*/ sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
+			//clientSocket.send(sendPacket);
+
+			receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			clientSocket.receive(receivePacket);
-			String modifiedSentence = new String(receivePacket.getData());
-			System.out.println("FROM SERVER:" + modifiedSentence);
+			modifiedSentence = new String(receivePacket.getData());
 			
 			//list command
 			if (sentence.equals("list")){
 				
 				//read input from comand line;
-				String lang_select = inFromUser.readLine();
-				sendData = lang_select.getBytes();
+				/*String lang_select = inFromUser.readLine();
+				sendData = lang_select.getBytes();*/
+				sendData = "ULQ".getBytes();
 				sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
 				clientSocket.send(sendPacket);
 				receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -47,8 +54,22 @@ public class usr{
 				System.out.println("Lang_Selected: " + modified_language);
 				
 			}
+			
+			//request command
+			else if (sentence.equals("request")){
+				
+			}
+			
+			//exit command
 			else if (sentence.equals("exit")){
 				sentence1 = sentence;
+				
+			}
+			
+			//everything else
+			else{
+				System.out.println("FROM SERVER:" + modifiedSentence);
+				clientSocket.send(sendPacket);
 			}
 		}
 		clientSocket.close();
