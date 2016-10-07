@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.*;
+import java.lang.*;
 
 class server_usr{
 	
@@ -26,6 +27,7 @@ class server_usr{
 			sendData = capitalizedSentence.getBytes();
 			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
 			serverSocket.send(sendPacket);
+			sentence.delete(0,sentence.length());
 			
 	   }
 	}

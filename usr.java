@@ -25,6 +25,9 @@ public class usr{
 			sendData = sentence.getBytes();
 			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
 			clientSocket.send(sendPacket);
+			
+			//sendPacket.delete(0,sendPacket.length());
+			
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			clientSocket.receive(receivePacket);
 			String modifiedSentence = new String(receivePacket.getData());
@@ -45,9 +48,7 @@ public class usr{
 				
 			}
 			else if (sentence.equals("exit")){
-				
 				sentence1 = sentence;
-
 			}
 		}
 		clientSocket.close();
