@@ -1,13 +1,9 @@
 import java.io.*;
 import java.net.*;
+import java.lang.*;
 
 
 public class usr{
-	
-	private void error(){
-		System.out.println("Creation of server abort!\n");
-		System.exit(1)
-	}
 
 	public static void main(String args[]) throws Exception{
 	   
@@ -19,49 +15,55 @@ public class usr{
 		//Only one of TCSport or TCSname is inserted
 		if(args.length == 3){
 			if(args[1] == "-p" ){
-				TCSPORT = args[2];
+				Integer.parseInt(args[2]);
+				TCSport = Integer.parseInt(args[2]);
 			}
 			else if (args[1] == "-n"){
 				TCSname = args[2];
 			}
 			else{
-				error();
+				System.out.println("Creation of server abort!\n");
+				System.exit(1);
 			}
 		}
 		//TCSport and TCSname inserted
 		else if(args.length == 5){
 			
 			if(args[1] == "-p" ){
-				TRSPORT = args[2];
+				TCSport = Integer.parseInt(args[2]);
 				
 				if(args[3] == "-n"){
-					TCSNAME = args[4];
+					TCSname = args[4];
 				}
 				
 				else{
-					error();
+					System.out.println("Creation of server abort!\n");
+					System.exit(1);
 				}
 			}
 			else if (args[1] == "-n"){
-				TCSNAME = args[2];
+				TCSname = args[2];
 				
 				if(args[3] == "-p"){
-					TRSPORT = args[4];
+					TCSport = Integer.parseInt(args[4]);
 				}
 				
 				else{
-					error();
+					System.out.println("Creation of server abort!\n");
+					System.exit(1);
 				}
 			}
 			else{
-				error();
+				System.out.println("Creation of server abort!\n");
+				System.exit(1);	
 			}
+		}
 			
 		
 		
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		DatagramSocket clientSocket = new DatagramSocket();
-		InetAddress IPAddress = InetAddress.getByName(TCSName);
+		InetAddress IPAddress = InetAddress.getByName(TCSname);
 		
 		//Declaration of Arrays of bytes for the connection;
 		byte[] sendData = new byte[1024];
