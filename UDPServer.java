@@ -1,5 +1,7 @@
 import java.io.*;
 import java.net.*;
+import java.lang.*;
+import java.*;
 
 class UDPServer{
 
@@ -8,7 +10,11 @@ class UDPServer{
 
             if (args.length==2 && args[0].equals("-p")){
                   tcs_port = Integer.parseInt(args[1]);
-;            }
+            }
+
+            File yourFile = new File("languages.txt");
+            yourFile.createNewFile(); // if file already exists will do nothing 
+            FileOutputStream oFile = new FileOutputStream(yourFile, false);
             
             DatagramSocket serverSocket = new DatagramSocket(tcs_port);
                   
@@ -16,6 +22,7 @@ class UDPServer{
             
                   byte[] receiveData = new byte[1024];
                   byte[] sendData = new byte[1024];
+
                   String sentence = "";
 
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -32,6 +39,36 @@ class UDPServer{
                   InetAddress IPAddress = receivePacket.getAddress();
 
                   System.out.println("IPAddress: " + IPAddress);
+
+                  //----------------------------------------------------
+
+                  /****************************
+                   *          Client          *
+                   ****************************/
+
+                  if (help[0].equals("ULQ")){
+                        System.out.println("ULQ");
+                  }
+
+                  else if (help[0].equals("ULR")){
+                        System.out.println("ULR");
+                  }
+
+                  else if (help[0].equals("UNQ")){
+                        System.out.println("UNQ");
+                  }
+
+                  else if (help[0].equals("UNR")){
+                        System.out.println("UNR");
+                  }
+
+
+
+
+
+
+
+                  //--------------------------------------------------
 
                   int port = receivePacket.getPort();
 
