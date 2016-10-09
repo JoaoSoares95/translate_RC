@@ -3,58 +3,70 @@ import java.net.*;
 import java.lang.*;
 
 
+
 public class usr{
 
-	public static void main(String args[]) throws Exception{
+	//Cant use on static main
+	private void error(){
+		System.out.println("Creation of server abort!\n");
+		System.exit(1);
+	}
+	
+	public static void main(String[] args) throws Exception{
 	   
 	    int GN = 45;//Group number
 		int TCSport = 58000+GN;//Port to TCS if not in parameters.
 		String TCSname = "localhost";
 		
+		for (String s: args) {
+            System.out.println(s);
+        }
+		
 		/**********************Checking if args are inserted on program start;****************************/
 		//Only one of TCSport or TCSname is inserted
-		if(args.length == 3){
-			if(args[1] == "-p" ){
-				Integer.parseInt(args[2]);
-				TCSport = Integer.parseInt(args[2]);
+		if(args.length == 2){
+			if(args[0].equals("-p") ){
+				Integer.parseInt(args[1]);
+				TCSport = Integer.parseInt(args[1]);
 			}
-			else if (args[1] == "-n"){
-				TCSname = args[2];
+			else if (args[0].equals("-n")){
+				TCSname = args[1];
 			}
 			else{
-				System.out.println("Creation of server abort!\n");
+				System.out.println("Wrong Args!\n");
 				System.exit(1);
 			}
 		}
+		
 		//TCSport and TCSname inserted
-		else if(args.length == 5){
+		else if(args.length == 4){
 			
-			if(args[1] == "-p" ){
-				TCSport = Integer.parseInt(args[2]);
+			if(args[0].equals("-p")){
+				TCSport = Integer.parseInt(args[1]);
 				
-				if(args[3] == "-n"){
-					TCSname = args[4];
+				if(args[2].equals("-n")){
+					TCSname = args[3];
 				}
 				
 				else{
-					System.out.println("Creation of server abort!\n");
+					System.out.println("Wrong Args!\n");
 					System.exit(1);
 				}
 			}
-			else if (args[1] == "-n"){
-				TCSname = args[2];
+			else if (args[0].equals("-n")){
+				TCSname = args[1];
 				
-				if(args[3] == "-p"){
-					TCSport = Integer.parseInt(args[4]);
+				if(args[2].equals("-p")){
+					TCSport = Integer.parseInt(args[3]);
 				}
 				
 				else{
-					System.out.println("Creation of server abort!\n");
+					System.out.println("Wrong Args!\n");
 					System.exit(1);
 				}
 			}
 			else{
-				System.out.println("Creation of server abort!\n");
+				System.out.println("Wrong Args!\n");
 				System.exit(1);	
 			}
 		}
@@ -82,7 +94,9 @@ public class usr{
 		//while message not "exit";
 		/*while (!(sentence1.equals("exit"))){*/
 		while (true){
-		
+			
+			String[] languages;
+			
 			//read input from comand line;
 			String sentence = inFromUser.readLine();
 			
@@ -107,26 +121,45 @@ public class usr{
 				
 				receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				clientSocket.receive(receivePacket);
-				String modified_language = new String(receivePacket.getData());
+				String lang_list = new String(receivePacket.getData());
 				
-				System.out.println("Lang_Selected: " + modified_language);
+				languages = lang_list.split("\n");
+				
+				for (String s : languages){
+					System.out.println(s);
+					
+				}
+				
+				System.out.println("Lang_Selected: " + lang_list);
 				
 			}
 			
 			//request command
 			else if (help[0].equals("request")){
+				
+				if (help.length == 1){
+					System.out.println("That's wrong dude.\nTry again.");
+					
+				}
+				
+/* 				sendData = languages.getBytes();
+				
+				DatagramPacket sendPacket1 = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport); */
+				
 			
 				//request with file
-				if (help[2].equals("f")){
-					//envio de um ficheiro
+				else if (help[2].equals("f")){
+					//lang select
+					
+					// clientSocket.send(sendPacket1);
 					
 					
 				}
 				
 				//request with text
 				else if (help[2].equals("t")){
-					//envio de palavras
-					
+					//lang select
+					// clientSocket.send(sendPacket1);
 					
 				}
 				
@@ -140,7 +173,7 @@ public class usr{
 			//exit command
 			else if (sentence.equals("exit")){
 				//sentence1 = sentence;
-				System.out.println("Leaving");
+				System.out.println("Leaving\n");
 				clientSocket.send(sendPacket);
 
 				break;
@@ -149,13 +182,15 @@ public class usr{
 			
 			//everything else
 			else{
-
-				clientSocket.send(sendPacket);
+				
+				System.out.println("That's wrong dude.\nTry again.");
+				
+				/*clientSocket.send(sendPacket);
 
 				clientSocket.receive(receivePacket);
 				modifiedSentence = new String(receivePacket.getData());
 
-				System.out.println("FROM SERVER:" + modifiedSentence);
+				System.out.println("FROM SERVER:" + modifiedSentence);*/
 			}
 		}
 		clientSocket.close();
