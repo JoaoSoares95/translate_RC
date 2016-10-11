@@ -14,7 +14,7 @@ class UDPServer{
             }
 
             int n_languagues=0;
-            String m_ok="OK\n", m_nok="NOK\n", m_err = "ERR\n";
+            String m_ok="OK", m_nok="NOK", m_err = "ERR";
             String m_sur="SUR ", m_srr="SRR ";
 
             ArrayList <ArrayList <String>> languages = new ArrayList <ArrayList <String>>();
@@ -30,7 +30,7 @@ class UDPServer{
                   byte[] receiveData = new byte[1024];
                   byte[] sendData = new byte[1024];
 
-                  String sentence = "";
+                  String sentence = "", messege = "";
 
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   serverSocket.receive(receivePacket);
@@ -41,13 +41,13 @@ class UDPServer{
 
                   System.out.println("RECEIVED: " + sentence);
 
-                  String[] help = sentence.split("\\W");
+                  String[] help = sentence.split(" ");
+
+                  //System.out.println("HELP                           - "+help[0]+" n:" + help.length);
 
                   InetAddress IPAddress = receivePacket.getAddress();
 
                   //System.out.println("IPAddress: " + IPAddress);
-
-                  //----------------------------------------------------
 
                   /****************************
                    *          Client          *
@@ -79,20 +79,29 @@ class UDPServer{
                         if (help.length==4){   
                               ArrayList <String> language = new ArrayList<String>();
                               
-                              for (int i=0; i<4; i++) {
-                                    for (int j=0; i<n_languagues; j++) {
-                                          languages
-                                    }
-                                    language.add(help[i]);
-
+                              for (int j=0; j<n_languagues; j++) {
+                                    ArrayList <String> l = languages.get(j); 
+                                    if(l.contains(help[0]) || l.contains(help[1]) || l.contains(help[2]) || l.contains(help[3])){
+                                          messege = m_srr + m_nok;
+                                    }   
                               }
-                              languages.add(language);
-                              n_languagues++;
-                        }
-                  }
 
-                  else if (help[0].equals("SRR")){
-                        System.out.println("SRR");
+                              for (int i=0; i<4; i++) {
+                                    if (!(language.add(help[i]))){
+                                          messege = m_srr + m_err;
+                                    }
+                              }
+
+                              languages.add(language);
+                              n_languagues++;                        }
+
+                        else{ //Senao tiver numero de argumentos certos
+                              messege=m_srr+m_err;
+                        }
+
+                        if (messege.isEmpty()){ //Se estiver vazio significa que está tudo OK
+                              messege=m_srr+m_ok;
+                        }
                   }
 
                   else if (help[0].equals("SUN")){
@@ -111,23 +120,23 @@ class UDPServer{
 
                   //System.out.println("port: " + port);
 
-                  String capitalizedSentence = sentence.toUpperCase();
+                  String capitalizedSentence = messege.toUpperCase();
 
                   System.out.println("capitalizedSentence: " + capitalizedSentence);
 
                   sendData = capitalizedSentence.getBytes();
 
-                  System.out.println("sendData: " + sendData);
+                  //System.out.println("sendData: " + sendData);
                   
                   DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
                   serverSocket.send(sendPacket);
 
                   //System.out.println("sendPacket: " + sendPacket);
 
-                  if (help[0].equals("exit") && help.length==1) {
+                  /*if (help[0].equals("exit") && help.length==1) {
                         System.out.println("Saiu");
                         break;
-                  }
+                  }*/
 
                   /*else{
                         System.out.println("--------------- " + help[0].equals("exit"));
@@ -136,7 +145,6 @@ class UDPServer{
                   }*/
 
             }
-
-            System.out.println ("parou o while");
+            //System.out.println ("parou o while");
       }
 }
