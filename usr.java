@@ -144,19 +144,16 @@ public class usr{
 			//request command
 			else if (help[0].equals("request")){
 				
-				
 				//check if request has a proper number of args
 				if (help.length <= 3){
 					System.out.println("That's wrong dude.\nTry again.");
 					
 				}
-				
-				int size = help.length;
-				String words="";
-				
-				for (int j=3;j<size;j++){
-					
-					words.concat(help[j]);
+				int count=0;
+				String words = "";
+				for (int l=3;l<help.length;l++){
+					count++;
+					words = words.concat(help[l]);
 					
 				}
 				
@@ -219,18 +216,23 @@ public class usr{
 						
 						//String sentence;
 						String modifiedSentence;
-						
-						//wrong type of variable
-						//InputStream stream = new ByteArrayInputStream(words.getBytes());
-						//BufferedReader inFromUser = new BufferedReader(new InputStreamReader(stream));
+						//BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 						Socket clientSocket1 = new Socket(TRSname, TRSport);
 						DataOutputStream outToServer = new DataOutputStream(clientSocket1.getOutputStream());
+						
 						BufferedReader inFromServer1 = new BufferedReader(new InputStreamReader(clientSocket1.getInputStream()));
-						sentence = inFromUser.readLine();
-						outToServer.writeBytes("TRQ t " + words);
+						//sentence = inFromUser.readLine();
+						outToServer.writeBytes("TRQ t " + count + " " + help[3]);
+						
+						//too much time
 						modifiedSentence = inFromServer1.readLine();
+						
+						System.out.println("Tempo");
 						System.out.println("FROM SERVER:" + modifiedSentence);
 						clientSocket1.close();
+						
+						
+						
 						
 						
 					}
