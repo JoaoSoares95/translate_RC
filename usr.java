@@ -78,8 +78,7 @@ public class usr{
 		InetAddress IPAddress = InetAddress.getByName(TCSname);
 		
 		//Declaration of Arrays of bytes for the connection;
-		byte[] sendData = new byte[1024];
-		byte[] receiveData = new byte[1024];
+		
 		
 		/*String sentence1 = inFromUser.readLine();
 		sendData = sentence1.getBytes();
@@ -90,18 +89,24 @@ public class usr{
 		String modifiedSentence = new String(receivePacket.getData());
 		System.out.println("FROM SERVER:" + modifiedSentence);*/
 		
+		String[] languages = new String[99];
+		int lang_number = 0;
+		int numb_lang_selected = 0;
+		/*while (!(sentence1.equals("exit"))){*/
 		
 		//while message not "exit";
-		/*while (!(sentence1.equals("exit"))){*/
+		
 		while (true){
-			
-			String[] languages;
+			byte[] receiveData = new byte[10240];
+			byte[] sendData = new byte[10240];
 			
 			//read input from comand line;
 			String sentence = inFromUser.readLine();
 			
 			
-			String[] help = sentence.split("\\W");
+			String[] help = sentence.split(" ");
+			
+			
 			
 			sendData = sentence.getBytes();
 			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
@@ -109,65 +114,105 @@ public class usr{
 
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			//clientSocket.receive(receivePacket);
-			String modifiedSentence = new String(receivePacket.getData());
+			//String modifiedSentence = new String(receivePacket.getData());
+			
 			
 			//list command
 			if (help[0].equals("list")){
 				
-				sendData = "ULQ".getBytes();
 				
+				sendData = "ULQ\n".getBytes();
 				/*DatagramPacket*/ sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
 				clientSocket.send(sendPacket);
+				
 				
 				receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				clientSocket.receive(receivePacket);
 				String lang_list = new String(receivePacket.getData());
 				
-				languages = lang_list.split("\n");
-				
-				for (String s : languages){
+				//split languages received
+				languages = lang_list.split(" ");
+				//language number
+				lang_number = Integer.parseInt(languages[1]);
+								
+				/*for (String s : languages){
 					System.out.println(s);
 					
+				}*/
+				for (int j = 2; j < languages.length; j++){
+					System.out.println(j-1 + " " + languages[j]);
 				}
-				
-				System.out.println("Lang_Selected: " + lang_list);
-				
 			}
-			
 			//request command
 			else if (help[0].equals("request")){
 				
-				if (help.length == 1){
+				//check if request has a proper number of args
+				if (help.length <= 3){
 					System.out.println("That's wrong dude.\nTry again.");
 					
 				}
 				
-/* 				sendData = languages.getBytes();
+				numb_lang_selected = Integer.parseInt(help[1]);
 				
-				DatagramPacket sendPacket1 = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport); */
+				System.out.println(languages[numb_lang_selected+1]);
+				sendData = ("UNQ " + languages[numb_lang_selected+1]).getBytes();
 				
-			
-				//request with file
-				else if (help[2].equals("f")){
-					//lang select
+				/*DatagramPacket*/ sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
+				clientSocket.send(sendPacket);
+
+				//erro provavelmente aqui;
+				receivePacket = new DatagramPacket(receiveData, receiveData.length);
+				clientSocket.receive(receivePacket);
+				String response = new String(receivePacket.getData());
+				
+				//verification print
+				System.out.println(response);
+				
+				
+				String[] TCS_to_TRS = response.split(" ");
+				
+				//get the port right because of \n
+				String[] port = TCS_to_TRS[2].split("\\n");
+				
+				if (TCS_to_TRS[0].equals("UNR")){
 					
-					// clientSocket.send(sendPacket1);
+					
+					for (String l : TCS_to_TRS){
+						System.out.println(l + "----hello" + l.length());
+					}
+					
+					String nome = TCS_to_TRS[2];
 					
 					
+					int TRSport = Integer.parseInt(port[0]);
+					String TRSname = TCS_to_TRS[1];
+					
+					System.out.println(TCS_to_TRS.length);
+					
+					//request with file
+					if (help[2].equals("f")){
+						//lang select
+						// clientSocket.send(sendPacket1);
+						
+					}
+					
+					//request with text
+					else if (help[2].equals("t")){
+						//lang select
+						
+						
+					}
+					
+					else{
+						
+						System.out.println("That's wrong buddy");
+						
+					}
 				}
-				
-				//request with text
-				else if (help[2].equals("t")){
-					//lang select
-					// clientSocket.send(sendPacket1);
-					
-				}
-				
 				else{
-					
-					System.out.println("That's wrong buddy");
-					
+					//send error for request
 				}
+				
 			}
 
 			//exit command
@@ -175,7 +220,6 @@ public class usr{
 				//sentence1 = sentence;
 				System.out.println("Leaving\n");
 				clientSocket.send(sendPacket);
-
 				break;
 
 			}
