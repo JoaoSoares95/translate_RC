@@ -15,7 +15,7 @@ class UDPClient {
             
                   String sentence = inFromUser.readLine();
 
-                  System.out.println("sentence: " + sentence);
+                  //System.out.println("sentence: " + sentence);
 
                   byte[] sendData = sentence.getBytes();
 

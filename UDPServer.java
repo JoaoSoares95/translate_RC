@@ -13,11 +13,13 @@ class UDPServer{
                   tcs_port = Integer.parseInt(args[1]);
             }
 
-            int n_languagues=0;
-            String m_ok="OK", m_nok="NOK", m_err = "ERR";
-            String m_sur="SUR ", m_srr="SRR ";
+            int n_languagues = 0;
+            String m_ok = "OK", m_nok = "NOK", m_err = "ERR";
+            String m_sur = "SUR ", m_srr = "SRR ", m_ulr = "ULR ", m_unr = "UNR ";
 
             ArrayList <ArrayList <String>> languages = new ArrayList <ArrayList <String>>();
+
+            System.out.println(InetAddress.getLocalHost().getHostName());
 
             //File yourFile = new File("languages.txt");
             //yourFile.createNewFile(); // if file already exists will do nothing 
@@ -31,6 +33,8 @@ class UDPServer{
                   byte[] sendData = new byte[1024];
 
                   String sentence = "", messege = "";
+
+                  
 
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   serverSocket.receive(receivePacket);
@@ -53,8 +57,22 @@ class UDPServer{
                    *          Client          *
                    ****************************/
 
+                  System.out.println("OKDJFSINJVB DSHJFBX DSHJFBX" +  help[0]);
+
                   if (help[0].equals("ULQ")){               //enviar a lista de linguagens
                         System.out.println("ULQ");          //
+
+
+                        String numero=Integer.toString(n_languagues);
+
+                        messege = m_ulr + numero;
+
+                        System.out.println(messege);
+
+                        for (int i = 0; i < n_languagues ; i++ ) {
+                              ArrayList <String> l = languages.get(i);
+                              messege = messege + " " + l.get(0);
+                        }
                   }                                         //
                                                             //
                   else if (help[0].equals("ULR")){          // ULR nL L1 L2 … LnL
@@ -81,12 +99,12 @@ class UDPServer{
                               
                               for (int j=0; j<n_languagues; j++) {
                                     ArrayList <String> l = languages.get(j); 
-                                    if(l.contains(help[0]) || l.contains(help[1]) || l.contains(help[2]) || l.contains(help[3])){
+                                    if(l.get(0).equals(help[1]) || l.get(1).equals(help[2]) || l.get(2).equals(help[3])){
                                           messege = m_srr + m_nok;
                                     }   
                               }
 
-                              for (int i=0; i<4; i++) {
+                              for (int i=1; i<4; i++) {
                                     if (!(language.add(help[i]))){
                                           messege = m_srr + m_err;
                                     }
@@ -107,42 +125,75 @@ class UDPServer{
                   else if (help[0].equals("SUN")){
                         System.out.println("SUN");
 
-                  }
+                        if (help.length==4){   
+                              ArrayList <String> n_to_remove = new ArrayList<String>();
+                              int a=0;
 
-                  else if (help[0].equals("SUR")){
-                        System.out.println("SUR");
-                  }
+                              for (int j=0; j<n_languagues; j++) {
+                                    ArrayList <String> l = languages.get(j); 
+                                    if(l.get(0).equals(help[1]) && l.get(1).equals(help[2]) && l.get(2).equals(help[3])){
+                                          if (n_to_remove.isEmpty()){
+                                                n_to_remove = l;
+                                          }
+                                          else {
+                                                a=1;
+                                          }
+                                    }   
+                              }
 
+                              if(!(n_to_remove.isEmpty() && a==0)){
+                                    if (languages.remove(n_to_remove)){
+                                          messege = m_sur + m_ok;
+                                          n_languagues--;
+                                    }
+                              }
+                              else{
+                                    messege = m_sur + m_nok;
+                              }
+                              
+                              
+                        }
+
+                        else{ //Senao tiver numero de argumentos certos
+                              messege=m_sur+m_err;
+                        }
+                  }
+                  System.out.println("PASSOU DOS IFS");
+
+                  
 
                   //--------------------------------------------------
 
-                  int port = receivePacket.getPort();
+                  //if(!(messege.isEmpty())){
 
-                  //System.out.println("port: " + port);
+                        int port = receivePacket.getPort();
 
-                  String capitalizedSentence = messege.toUpperCase();
+                        //System.out.println("port: " + port);
 
-                  System.out.println("capitalizedSentence: " + capitalizedSentence);
+                        String capitalizedSentence = messege.toUpperCase();
 
-                  sendData = capitalizedSentence.getBytes();
+                        //System.out.println("capitalizedSentence: " + capitalizedSentence);
 
-                  //System.out.println("sendData: " + sendData);
-                  
-                  DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
-                  serverSocket.send(sendPacket);
+                        sendData = capitalizedSentence.getBytes();
 
-                  //System.out.println("sendPacket: " + sendPacket);
+                        //System.out.println("sendData: " + sendData);
+                        
+                        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+                        serverSocket.send(sendPacket);
 
-                  /*if (help[0].equals("exit") && help.length==1) {
-                        System.out.println("Saiu");
-                        break;
-                  }*/
+                        //System.out.println("sendPacket: " + sendPacket);
 
-                  /*else{
-                        System.out.println("--------------- " + help[0].equals("exit"));
-                        System.out.println("rip::::::::::: " + help.length );
-                        System.out.println("nao percebo nada disto " + help[0].length());
-                  }*/
+                        /*if (help[0].equals("exit") && help.length==1) {
+                              System.out.println("Saiu");
+                              break;
+                        }*/
+
+                        /*else{
+                              System.out.println("--------------- " + help[0].equals("exit"));
+                              System.out.println("rip::::::::::: " + help.length );
+                              System.out.println("nao percebo nada disto " + help[0].length());
+                        }*/
+                  //}
 
             }
             //System.out.println ("parou o while");
