@@ -57,9 +57,8 @@ class UDPServer{
                    *          Client          *
                    ****************************/
 
-                  System.out.println("OKDJFSINJVB DSHJFBX DSHJFBX" +  help[0]);
 
-                  if (help[0].equals("ULQ")){               //enviar a lista de linguagens
+                  if (help[0].startsWith("ULQ")){               //enviar a lista de linguagens
                         System.out.println("ULQ");          //
 
 
@@ -73,14 +72,26 @@ class UDPServer{
                               ArrayList <String> l = languages.get(i);
                               messege = messege + " " + l.get(0);
                         }
-                  }                                         //
-                                                            //
-                  else if (help[0].equals("ULR")){          // ULR nL L1 L2 … LnL
-                        System.out.println("ULR");          //
-                  }
+                        
+                        messege = messege + "\n";
+                  }   
 
                   else if (help[0].equals("UNQ")){
-                        System.out.println("UNQ");
+                      System.out.println("UNQ");
+                      
+                      
+                      for (int i = 0; i < n_languagues ; i++ ) {
+                    	  
+                          ArrayList <String> l = languages.get(i);
+                          
+                          System.out.println(help[1] + " " + help[1].length() + " -- " + l.get(0));
+                          
+                          if (help[1].startsWith(l.get(0))){
+                        	  messege = m_unr + l.get(1) + " " + l.get(2) + "\n";
+                        	  System.out.println(messege);
+                        	  break;
+                          }
+                      }
                   }
 
                   else if (help[0].equals("UNR")){
@@ -170,7 +181,7 @@ class UDPServer{
 
                         //System.out.println("port: " + port);
 
-                        String capitalizedSentence = messege.toUpperCase();
+                        String capitalizedSentence = messege;//.toUpperCase();
 
                         //System.out.println("capitalizedSentence: " + capitalizedSentence);
 
