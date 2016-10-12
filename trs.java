@@ -173,7 +173,7 @@ class trs{
 		String[] envaux2;
 		
 		/* Envio de registo */
-		envaux1 = "SRG "+LANGUAGE+" "+TRSIP+" "+TRSPORT;
+		envaux1 = "SRG "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT;
 		System.out.println(" -- rwhik -- " + envaux1);
 		env = envaux1.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
