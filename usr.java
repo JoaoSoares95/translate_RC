@@ -2,8 +2,6 @@ import java.io.*;
 import java.net.*;
 import java.lang.*;
 
-
-
 public class usr{
 
 	//Cant use on static main
@@ -146,15 +144,25 @@ public class usr{
 			//request command
 			else if (help[0].equals("request")){
 				
+				
 				//check if request has a proper number of args
 				if (help.length <= 3){
 					System.out.println("That's wrong dude.\nTry again.");
 					
 				}
 				
+				int size = help.length;
+				String words="";
+				
+				for (int j=3;j<size;j++){
+					
+					words.concat(help[j]);
+					
+				}
+				
 				numb_lang_selected = Integer.parseInt(help[1]);
 				
-				System.out.println(languages[numb_lang_selected+1]);
+				//System.out.println(languages[numb_lang_selected+1]);
 				sendData = ("UNQ " + languages[numb_lang_selected+1]).getBytes();
 				
 				/*DatagramPacket*/ sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, TCSport);
@@ -166,7 +174,7 @@ public class usr{
 				String response = new String(receivePacket.getData());
 				
 				//verification print
-				System.out.println(response);
+				//System.out.println(response);
 				
 				
 				String[] TCS_to_TRS = response.split(" ");
@@ -176,18 +184,16 @@ public class usr{
 				
 				if (TCS_to_TRS[0].equals("UNR")){
 					
-					
+					/*
 					for (String l : TCS_to_TRS){
 						System.out.println(l + "----hello" + l.length());
-					}
+					}*/
 					
 					String nome = TCS_to_TRS[2];
 					
 					
 					int TRSport = Integer.parseInt(port[0]);
 					String TRSname = TCS_to_TRS[1];
-					
-					System.out.println(TCS_to_TRS.length);
 					
 					//request with file
 					if (help[2].equals("f")){
@@ -199,6 +205,32 @@ public class usr{
 					//request with text
 					else if (help[2].equals("t")){
 						//lang select
+						/* Socket clientSocket_TRS = new Socket(TRSname, TRSport);
+						DataOutputStream outToServer = new DataOutputStream(clientSocket_TRS.getOutputStream());
+						
+						
+						BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+						
+						outToServer.writeBytes(help[3] + "\n");
+						
+						String modifiedSentence = inFromServer.readLine();
+						System.out.println("FROM SERVER:" + modifiedSentence);
+						 */
+						
+						//String sentence;
+						String modifiedSentence;
+						
+						//wrong type of variable
+						//InputStream stream = new ByteArrayInputStream(words.getBytes());
+						//BufferedReader inFromUser = new BufferedReader(new InputStreamReader(stream));
+						Socket clientSocket1 = new Socket(TRSname, TRSport);
+						DataOutputStream outToServer = new DataOutputStream(clientSocket1.getOutputStream());
+						BufferedReader inFromServer1 = new BufferedReader(new InputStreamReader(clientSocket1.getInputStream()));
+						sentence = inFromUser.readLine();
+						outToServer.writeBytes("TRQ t " + words);
+						modifiedSentence = inFromServer1.readLine();
+						System.out.println("FROM SERVER:" + modifiedSentence);
+						clientSocket1.close();
 						
 						
 					}
