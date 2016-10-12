@@ -9,11 +9,12 @@ class trs{
 		/* Informações de servidores por omissao*/
 		int TCSPORT = 58045;
 		int TRSPORT = 59000;
-		InetAddress TRSIP = InetAddress.getLocalHost();
+		String TCSNAME = "localhost";
+		InetAddress TRSIP = InetAddress.getByName(TCSNAME);
 		
 		System.out.println(InetAddress.getLocalHost().getHostAddress());
 		
-		String TCSNAME = "localhost";
+
 		String LANGUAGE = "";
 		/* Verifiacao de input*/
 		if (args.length == 1){
@@ -162,6 +163,8 @@ class trs{
 			System.exit(1);
 		}
 		
+		InetAddress TRSIP = InetAddress.getByName(TCSNAME);
+		
 		/* Dar inicio ao registo em TCS */
 		DatagramSocket socketudp = new DatagramSocket();
 		
@@ -176,7 +179,7 @@ class trs{
 		envaux1 = "SRG "+LANGUAGE+" "+TRSIP+" "+TRSPORT;
 		System.out.println(" -- rwhik -- " + envaux1);
 		env = envaux1.getBytes();
-		DatagramPacket sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
+		DatagramPacket sendPacket = new DatagramPacket(env, env.length, TRSIP, TCSPORT);
 		socketudp.send(sendPacket);
 
 		
