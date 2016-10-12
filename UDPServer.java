@@ -19,6 +19,8 @@ class UDPServer{
 
             ArrayList <ArrayList <String>> languages = new ArrayList <ArrayList <String>>();
 
+            System.out.println(InetAddress.getLocalHost().getHostName());
+
             //File yourFile = new File("languages.txt");
             //yourFile.createNewFile(); // if file already exists will do nothing 
             //FileOutputStream oFile = new FileOutputStream(yourFile, false);

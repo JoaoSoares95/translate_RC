@@ -13,16 +13,6 @@ class trs{
 		String TCSNAME = "localhost";
 		String LANGUAGE = "";
 		/* Verifiacao de input*/
-		
-		int n = args.length;
-		System.out.println("length : "+n);
-		
-		while(n!=0){
-			int w = n-1 ;
-			System.out.println("arg" + w + ":" + args[w]+"\n");
-			n -= 1;
-		}
-		
 		if (args.length == 1){
 			LANGUAGE = args[0];
 		}
@@ -180,7 +170,7 @@ class trs{
 		String[] envaux2;
 		
 		/* Envio de registo */
-		envaux1 = "SRG "+LANGUAGE+" "+/*TRSIP+"*/TRSPORT;
+		envaux1 = "SRG "+LANGUAGE+" "+TRSIP+" "+TRSPORT;
 		env = envaux1.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
 		socketudp.send(sendPacket);
