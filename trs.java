@@ -7,9 +7,12 @@ class trs{
 	public static void main(String args[]) throws Exception{
 		
 		/* Informações de servidores por omissao*/
-		int TCSPORT = 59045;
+		int TCSPORT = 58045;
 		int TRSPORT = 59000;
 		InetAddress TRSIP = InetAddress.getLocalHost();
+		
+		System.out.println(InetAddress.getLocalHost().getHostAddress());
+		
 		String TCSNAME = "localhost";
 		String LANGUAGE = "";
 		/* Verifiacao de input*/
@@ -160,7 +163,7 @@ class trs{
 		}
 		
 		/* Dar inicio ao registo em TCS */
-		DatagramSocket socketudp = new DatagramSocket(TCSPORT);
+		DatagramSocket socketudp = new DatagramSocket();
 		
 		byte[] rec = new byte[1024];
 		String recaux1;
@@ -171,22 +174,25 @@ class trs{
 		
 		/* Envio de registo */
 		envaux1 = "SRG "+LANGUAGE+" "+TRSIP+" "+TRSPORT;
+		System.out.println(" -- rwhik -- " + envaux1);
 		env = envaux1.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
 		socketudp.send(sendPacket);
 
 		
 		/* Registo com sucesso?*/
-		envaux1 = "SRR status";
+		/*envaux1 = "SRR status";
 		env = envaux1.getBytes();
 		sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
-		socketudp.send(sendPacket);
+		socketudp.send(sendPacket);*/
 
 		DatagramPacket receivePacket = new DatagramPacket(rec, rec.length);
 		socketudp.receive(receivePacket);
 		String sentence = new String(receivePacket.getData());
+		
+		System.out.println("-- OLa -- " + sentence);
 
-		if(!sentence.equals("status = OK")){
+		if(!sentence.startsWith("SRR OK")){
 			System.out.println("SRR ERR");
 			System.exit(1);
 		}
