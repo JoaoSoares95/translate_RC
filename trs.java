@@ -173,18 +173,11 @@ class trs{
 		String[] envaux2;
 		
 		/* Envio de registo */
-		envaux1 = "SRG "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT;
-		System.out.println(" -- rwhik -- " + envaux1);
+		envaux1 = "SRG "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT + "\n";
+
 		env = envaux1.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
 		socketudp.send(sendPacket);
-
-		
-		/* Registo com sucesso?*/
-		/*envaux1 = "SRR status";
-		env = envaux1.getBytes();
-		sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
-		socketudp.send(sendPacket);*/
 
 		DatagramPacket receivePacket = new DatagramPacket(rec, rec.length);
 		socketudp.receive(receivePacket);
@@ -213,40 +206,69 @@ class trs{
 				//recaux1 = rec.toString();
 				System.out.println("Received From Cliente: " + recaux1 + ".");
 				recaux2=recaux1.split("\\W");
-				//TRQ t N W1 W2 … WN ou TRQ f filename size data 
-				//TRR t N W1 W2 … WN ou TRR f filename size data 
-				if(recaux2[0].equals("TRQ")){ /*
-					if(){
-						
+				
+				int times;
+				int timesaux;
+				String traduzido = "TRR "+recaux2[0]+ " " + recaux[1] +" ";
+				if(recaux2[0].equals("TRQ")){
+					if(recaux2[1].equals("t")){
+						times = Integer.parseInt(recaux[2]);
+						timesaux = 0;
+						BufferedReader ficheiro = new BufferedReader(new FileReader(""));
+						try{
+							
+							while (timesaux==times){
+								int i = 3 + timesaux;
+								recaux2[i]
+							}
+						}
 					}
-					else if(){
-						
+					else if(recaux2[1].equals("f")){
+						times = Integer.parseInt(recaux[2]);
+						while (times!=0){
+							
+						}
 					}
 					else{
-						
+						System.out.println("Wrong Protocol!\n");
 					}
-				*/}
-				else if(recaux2[0].equals("TRR")){ /*
-					if(){
-						
-					}
-					else if(){
-						
-					}
-					else{
-						
-					}
-				*/
 				}
 				else{
 					System.out.println("Wrong Protocol!\n");
 				}
-				/*
+				
 				DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
+				
+				
+				BufferedReader alive = null;
+		
+				System.out.println("Keep server alive?");
+				alive = new BufferedReader(new InputStreamReader(System.in));
+				String input = alive.readLine();
 
-				capitalizedSentence = clientSentence.toUpperCase() + '\n';
-				outToClient.writeBytes(capitalizedSentence);
-				*/
+                if (!("y".equals(input)) || !("yes".equals(input))) {
+					while(true){
+						System.out.println("Server is dead");
+						envaux1 = "SUN "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT+"\n";
+
+						env = envaux1.getBytes();
+						sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
+						socketudp.send(sendPacket);
+						
+						receivePacket = new DatagramPacket(rec, rec.length);
+						socketudp.receive(receivePacket);
+						sentence = new String(receivePacket.getData());
+						
+
+						if(!sentence.startsWith("SUR OK")){
+							System.out.println("SUR ERR");
+							System.out.println("Try kill the server again\n");
+						}
+						else{			
+							System.exit(0);
+						}
+					}
+				}
 			}
 		}
 	}
