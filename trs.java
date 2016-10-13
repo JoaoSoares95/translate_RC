@@ -284,7 +284,7 @@ class trs{
 								BufferedImage image = ImageIO.read(HeyFile);
 								String data = "";
 								data = image.toString();
-								traduzido += " " + nometraduzido + " " +file.length() + " " + data;
+								traduzido += " " + nomeTraduzido + " " + file.length() + " " + data;
 							}
 							catch (IOException e) { 
 								System.out.println("error reading the file and transforming to data");
