@@ -210,7 +210,7 @@ class trs{
 				
 				recaux1 = inFromClient.readLine();
 				//recaux1 = rec.toString();
-				System.out.println("Received From Cliente: " + recaux1 + ".");
+				System.out.println("Received From Cliente: " + recaux1);
 				recaux2=recaux1.split("\\W");
 				
 				int times;
@@ -219,7 +219,11 @@ class trs{
 				String[] lineSplit;
 				String traduzido = "TRR " + recaux2[1];
 				String file = "";
+				int k = 0;
 				
+				while(k!=recaux2.length){
+					System.out.println("recaux2["+k+"] :" + recaux2[k]);
+				}
 				
 				
 				if(recaux2[0].equals("TRQ")){
@@ -236,6 +240,7 @@ class trs{
 						else{
 							file = "text_translate2.txt";
 						}
+						System.out.println("file escolhido:"+file);
 						times = Integer.parseInt(recaux2[2]);
 						timesaux = 0;
 						try{
@@ -243,7 +248,8 @@ class trs{
 								BufferedReader ficheiro = new BufferedReader(new FileReader(file));
 								int i = 3 + timesaux;
 								while ((line = ficheiro.readLine()) != null){
-									lineSplit = line.split(" ");
+									System.out.println("linha de ficheiro: " + line);
+									lineSplit = line.split("\\W");
 									if(recaux2[i] == lineSplit[0]){
 										traduzido += " "+lineSplit[1];
 										break;
@@ -261,6 +267,7 @@ class trs{
 							BufferedReader ficheiro = new BufferedReader(new FileReader(file));
 							String nomeTraduzido ="" ;
 							while ((line = ficheiro.readLine()) != null){
+								System.out.println("linha de ficheiro: " + line);
 								lineSplit = line.split(" ");
 								if(recaux2[3] == lineSplit[0]){
 									traduzido += " " + lineSplit[1];
@@ -292,7 +299,7 @@ class trs{
 				}
 				
 				traduzido += "\n";
-				
+				System.out.println( "A Enviar: "+traduzido);
 				DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
 				
 				outToClient.writeBytes(traduzido);
