@@ -1,6 +1,9 @@
 import java.io.*;
 import java.net.*;
 import java.lang.*;
+import java.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 class trs{
 	
@@ -214,7 +217,7 @@ class trs{
 				int timesaux;
 				String line = "";
 				String[] lineSplit;
-				String traduzido = "TRR "+recaux2[0]+ " " + recaux2[1] +" ";
+				String traduzido = recaux2[0]+ " " + recaux2[1] +" ";
 				String file = "";
 				
 				
