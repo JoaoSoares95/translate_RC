@@ -189,7 +189,7 @@ class trs{
 		socketudp.receive(receivePacket);
 		String sentence = new String(receivePacket.getData());
 		
-		System.out.println("-- OLa -- " + sentence);
+		System.out.println(sentence);
 
 		if(!sentence.startsWith("SRR OK")){
 			System.out.println("SRR ERR");
@@ -217,7 +217,7 @@ class trs{
 				int timesaux;
 				String line = "";
 				String[] lineSplit;
-				String traduzido = recaux2[0]+ " " + recaux2[1] +" ";
+				String traduzido = "TRR " + recaux2[1];
 				String file = "";
 				
 				
@@ -245,7 +245,7 @@ class trs{
 								while ((line = ficheiro.readLine()) != null){
 									lineSplit = line.split(" ");
 									if(recaux2[i] == lineSplit[0]){
-										traduzido += lineSplit[1]+" ";
+										traduzido += " "+lineSplit[1];
 										break;
 									}
 								}
@@ -263,7 +263,7 @@ class trs{
 							while ((line = ficheiro.readLine()) != null){
 								lineSplit = line.split(" ");
 								if(recaux2[3] == lineSplit[0]){
-									traduzido += lineSplit[1]+" ";
+									traduzido += " " + lineSplit[1];
 									nomeTraduzido = lineSplit[1];
 									break;
 								}
@@ -273,7 +273,7 @@ class trs{
 								BufferedImage image = ImageIO.read(HeyFile);
 								String data = "";
 								data = image.toString();
-								traduzido += file.length() + " " + data + "\n";
+								traduzido += " "+file.length() + " " + data;
 							}
 							catch (IOException e) { 
 								System.out.println("error reading the file and transforming to data");
@@ -291,7 +291,7 @@ class trs{
 					System.out.println("Wrong Protocol!\n");
 				}
 				
-				
+				traduzido += "\n";
 				
 				DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
 				
