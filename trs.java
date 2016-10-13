@@ -211,7 +211,7 @@ class trs{
 				recaux1 = inFromClient.readLine();
 				//recaux1 = rec.toString();
 				System.out.println("Received From Cliente: " + recaux1);
-				recaux2=recaux1.split("\\W");
+				recaux2=recaux1.split(" ");
 				
 				int times;
 				int timesaux;
@@ -223,6 +223,7 @@ class trs{
 				
 				while(k!=recaux2.length){
 					System.out.println("recaux2["+k+"] :" + recaux2[k]);
+					k++;
 				}
 				
 				
@@ -252,7 +253,8 @@ class trs{
 									lineSplit = line.split(" ");
 									System.out.println(lineSplit[0]);
 									System.out.println(lineSplit[1]);
-									if(recaux2[i] == lineSplit[0]){
+									System.out.println(recaux2[i]);
+									if(recaux2[i].equals(lineSplit[0])){
 										traduzido += " "+lineSplit[1];
 										break;
 									}
@@ -266,12 +268,12 @@ class trs{
 					}
 					else if(recaux2[1].equals("f")){
 						try{
-							BufferedReader ficheiro = new BufferedReader(new FileReader(file));
-							String nomeTraduzido ="" ;
+							BufferedReader ficheiro = new BufferedReader(new FileReader("file_translation.txt"));
+							String nomeTraduzido ="";
 							while ((line = ficheiro.readLine()) != null){
 								System.out.println("linha de ficheiro: " + line);
 								lineSplit = line.split(" ");
-								if(recaux2[3] == lineSplit[0]){
+								if(recaux2[3].equals(lineSplit[0])){
 									traduzido += " " + lineSplit[1];
 									nomeTraduzido = lineSplit[1];
 									break;
@@ -282,7 +284,7 @@ class trs{
 								BufferedImage image = ImageIO.read(HeyFile);
 								String data = "";
 								data = image.toString();
-								traduzido += " "+file.length() + " " + data;
+								traduzido += " " + nomeTraduzido + " " + file.length() + " " + data;
 							}
 							catch (IOException e) { 
 								System.out.println("error reading the file and transforming to data");
@@ -303,16 +305,17 @@ class trs{
 				traduzido += "\n";
 				System.out.println( "A Enviar: "+traduzido);
 				DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
-				
+				System.out.println(" -- "+outToClient+" -- ");
 				outToClient.writeBytes(traduzido);
+				sockettcp.close();
 				
 				BufferedReader alive = null;
 		
-				System.out.println("Keep server alive?");
+				System.out.println("Keep server alive? [y=yes or n=no]");
 				alive = new BufferedReader(new InputStreamReader(System.in));
 				String input = alive.readLine();
 
-                if (!("y".equals(input)) || !("yes".equals(input))) {
+                if (!(input.equals("y"))) {
 					while(true){
 						System.out.println("Server is dead");
 						envaux1 = "SUN "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT+"\n";
