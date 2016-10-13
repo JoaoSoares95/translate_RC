@@ -98,6 +98,10 @@ class UDPServer{
                       }
                   }
 
+                  else if (help[0].equals("UNR")){
+                        System.out.println("UNR");
+                  }
+
                   /****************************
                    *         Tradutor         *
                    ****************************/   
@@ -111,13 +115,13 @@ class UDPServer{
                               for (int j=0; j<n_languagues; j++) {
                                     ArrayList <String> l = languages.get(j); 
                                     if(l.get(0).equals(help[1]) || l.get(2).equals(help[3])){
-                                          messege = m_srr + m_nok;
+                                          messege = m_srr + m_nok + "\n";
                                     }   
                               }
 
                               for (int i=1; i<4; i++) {
                                     if (!(language.add(help[i]))){
-                                          messege = m_srr + m_err;
+                                          messege = m_srr + m_err + "\n";
                                     }
                               }
 
@@ -125,11 +129,11 @@ class UDPServer{
                               n_languagues++;                        }
 
                         else{ //Senao tiver numero de argumentos certos
-                              messege=m_srr+m_err;
+                              messege = m_srr + m_err + "\n";
                         }
 
                         if (messege.isEmpty()){ //Se estiver vazio significa que está tudo OK
-                              messege=m_srr+m_ok;
+                              messege=m_srr+m_ok + "\n";
                         }
                   }
 

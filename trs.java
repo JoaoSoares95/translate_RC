@@ -16,150 +16,26 @@ class trs{
 			InetAddress TRSIP = InetAddress.getByName(TCSNAME);
 			
 			System.out.println(InetAddress.getLocalHost().getHostAddress());
-			
-
 
 			String LANGUAGE = "";
+
+			int size=args.length;
+			System.out.println(" -- " +size + " -- ");
 			/* Verifiacao de input*/
-			if (args.length == 1){
+			if (size == 1 || size ==3 || size==5 || size==7){
 				LANGUAGE = args[0];
-			}
-			else if(args.length == 3){
-				LANGUAGE = args[0];
-				if(args[1].equals("-p")){
-					TRSPORT = Integer.parseInt(args[2]);
-				}
-				else if (args[1].equals("-n")){
-					TCSNAME = args[2];
-				}
-				else if (args[1].equals("-e")){
-					TCSPORT = Integer.parseInt(args[2]);
-				}
-			}
-			else if(args.length == 5){
-				LANGUAGE = args[0];
-				if(args[1].equals("-p")){
-					TRSPORT = Integer.parseInt(args[2]);
-					if(args[3].equals("-n")){
-						TCSNAME = args[4];
+				for (int i=1; i < size; i+=2) {
+					//System.out.println(" -- " +i + " -- " + args[i] + " -- ");
+					if(args[i].equals("-p")){
+						TRSPORT = Integer.parseInt(args[i+1]);
 					}
-					else if(args[3].equals("-e")){
-						TCSPORT = Integer.parseInt(args[4]);
+					else if (args[i].equals("-n")){
+						TCSNAME = args[i+1];
 					}
-					else{
-						System.out.println("Creation of server abort!\n");
-						System.exit(1);
+					else if (args[i].equals("-e")){
+						TCSPORT = Integer.parseInt(args[i+1]);
 					}
-				}
-				else if (args[1].equals("-n")){
-					TCSNAME = args[2];
-					if(args[3].equals("-p")){
-						TRSPORT = Integer.parseInt(args[4]);
-					}
-					else if(args[3].equals("-e")){
-						TCSPORT = Integer.parseInt(args[4]);
-					}
-					else{
-						System.out.println("Creation of server abort!\n");
-						System.exit(1);
-					}
-				}
-				else if (args[1].equals("-e")){
-					TCSPORT = Integer.parseInt(args[2]);
-					if(args[3].equals("-n")){
-						TCSNAME = args[4];
-					}
-					else if(args[3].equals("-p")){
-						TRSPORT = Integer.parseInt(args[4]);
-					}
-					else{
-						System.out.println("Creation of server abort!\n");
-						System.exit(1);
-					}
-				}
-			}
-			else if(args.length == 7){
-				LANGUAGE = args[0];
-				if(args[1].equals("-p")){
-					TRSPORT = Integer.parseInt(args[2]);
-					if(args[3].equals("-n")){
-						TCSNAME = args[4];
-						if(args[5].equals("-e")){
-							TCSPORT = Integer.parseInt(args[6]);
-						}
-						else{
-							System.out.println("Creation of server abort!\n");
-							System.exit(1);
-						}
-					}
-					else if(args[3].equals("-e")){
-						TCSPORT = Integer.parseInt(args[4]);
-						if(args[5].equals("-n")){
-							TCSNAME = args[6];
-						}
-						else{
-							System.out.println("Creation of server abort!\n");
-							System.exit(1);
-						}
-					}
-					else{
-						System.out.println("Creation of server abort!\n");
-						System.exit(1);
-					}
-				}
-				else if (args[1].equals("-n")){
-					TCSNAME = args[2];
-					if(args[3].equals("-p")){
-						TRSPORT = Integer.parseInt(args[4]);
-						if(args[5].equals("-e")){
-							TCSPORT = Integer.parseInt(args[6]);
-						}
-						else{
-							System.out.println("Creation of server abort!\n");
-							System.exit(1);
-						}
-					}
-					else if(args[3].equals("-e")){
-						TCSPORT = Integer.parseInt(args[4]);
-						if(args[5].equals("-p")){
-							TRSPORT = Integer.parseInt(args[6]);
-						}
-						else{
-							System.out.println("Creation of server abort!\n");
-							System.exit(1);
-						}
-					}
-					else{
-						System.out.println("Creation of server abort!\n");
-						System.exit(1);
-					}
-				}
-				else if (args[1].equals("-e")){
-					TCSPORT = Integer.parseInt(args[2]);
-					if(args[3].equals("-n")){
-						TCSNAME = args[4];
-						if(args[5].equals("-p")){
-							TRSPORT = Integer.parseInt(args[6]);
-						}
-						else{
-							System.out.println("Creation of server abort!\n");
-						System.exit(1);
-						}
-					}
-					else if(args[3].equals("-p")){
-						TRSPORT = Integer.parseInt(args[4]);
-						if(args[5].equals("-n")){
-							TCSNAME = args[6];
-						}
-						else{
-							System.out.println("Creation of server abort!\n");
-							System.exit(1);
-						}
-					}
-					else{
-						System.out.println("Creation of server abort!\n");
-						System.exit(1);
-					}
+					
 				}
 			}
 			else{
@@ -192,33 +68,7 @@ class trs{
 			
 			System.out.println(sentence);
 
-	/*		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable(){
-	            //@Override
-	            public void run(String LANGUAGE, InetAddress TRSIP, String TRSPORT, String TCSNAME, int TCSPORT){
-	                System.out.println("Shutdown hook ran!");
-	                System.out.println("Server is dead");
-					envaux1 = "SUN "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT+"\n";
-					//byte[] env = new byte[1024];
-					env = envaux1.getBytes();
-					/*DatagramPacket sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
-					/*DatagramSocket socketudp = new DatagramSocket();
-					socketudp.send(sendPacket);
-					
-					/*DatagramPacket receivePacket = new DatagramPacket(rec, rec.length);
-					socketudp.receive(receivePacket);
-					/*String sentence = new String(receivePacket.getData());
-					
-
-					if(!sentence.startsWith("SUR OK")){
-						System.out.println("SUR ERR");
-						System.out.println("Try kill the server again\n");
-					}
-					else{			
-						System.exit(0);
-					}
-	            }
-	        }));*/
-		try{	
+		//try{	
 
 			if(!sentence.startsWith("SRR OK")){
 				System.out.println("SRR ERR");
@@ -369,9 +219,9 @@ class trs{
 					}
 				}
 			}
-		}
+		//}
 
-		finally{
+		/*finally{
 			System.out.println("Server is dead");
 			envaux1 = "SUN "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT+"\n";
 
@@ -391,7 +241,7 @@ class trs{
 			else{			
 				System.exit(0);
 			}
-		}
+		}*/
 	}
 }
 
