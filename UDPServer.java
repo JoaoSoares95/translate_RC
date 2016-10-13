@@ -9,6 +9,14 @@ class UDPServer{
       public static void main(String args[]) throws Exception{
             int tcs_port = 58045;
 
+            Runtime.getRuntime().addShutdownHook(new Thread(){
+                  @Override
+                  public void run()
+                  {
+                      System.out.println("Shutdown hook ran!");
+                  }
+            });
+
             if (args.length==2 && args[0].equals("-p")){
                   tcs_port = Integer.parseInt(args[1]);
             }
@@ -88,10 +96,6 @@ class UDPServer{
                         	  break;
                           }
                       }
-                  }
-
-                  else if (help[0].equals("UNR")){
-                        System.out.println("UNR");
                   }
 
                   /****************************
