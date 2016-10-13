@@ -170,13 +170,14 @@ public class usr{
 				clientSocket.receive(receivePacket);
 				String response = new String(receivePacket.getData());
 				
+				System.out.println(response);
+				
 				//verification print
 				//System.out.println(response);
 				
 				
 				String[] TCS_to_TRS = response.split(" ");
 				
-				//get the port right because of \n
 				String[] port = TCS_to_TRS[2].split("\\n");
 				
 				if (TCS_to_TRS[0].equals("UNR")){
@@ -191,50 +192,102 @@ public class usr{
 					
 					int TRSport = Integer.parseInt(port[0]);
 					String TRSname = TCS_to_TRS[1];
+					InetAddress IPAddressTRS = InetAddress.getByName(TRSname);
 					
 					//request with file
 					if (help[2].equals("f")){
 						//lang select
-						// clientSocket.send(sendPacket1);
+						
+						Socket socket = null;
+
+						socket = new Socket(TRSname, TRSport);
+
+						File file = new File("M:\\test.xml");
+						// Get the size of the file
+						long length = file.length();
+						byte[] bytes = new byte[16 * 1024];
+						InputStream in = new FileInputStream(file);
+						OutputStream out = socket.getOutputStream();
+
+						int count1;
+						while ((count1 = in.read(bytes)) > 0) {
+							out.write(bytes, 0, count1);
+						}
+
+						out.close();
+						in.close();
+						socket.close();
 						
 					}
 					
 					//request with text
 					else if (help[2].equals("t")){
 						//lang select
-						/* Socket clientSocket_TRS = new Socket(TRSname, TRSport);
-						DataOutputStream outToServer = new DataOutputStream(clientSocket_TRS.getOutputStream());
+					
+						/*Socket socketTRS = new Socket(TRSname, TRSport);
+						//System.out.println(languages[numb_lang_selected+1]);
+						sendData = ("TRQ t " + count + " " + words + "\n").getBytes();
+						/*DatagramPacket*/ /*sendPacket = new DatagramPacket(sendData, sendData.length, IPAddressTRS, TRSport);
+						clientSocket.send(sendPacket);
+
+						receivePacket = new DatagramPacket(receiveData, receiveData.length);
+						clientSocket.receive(receivePacket);
+						String lang_list = new String(receivePacket.getData());
+						
+						//split languages received
+						languages = lang_list.split(" ");
+						//language number
+						lang_number = Integer.parseInt(languages[1]);
+										
+						/*for (String s : languages){
+							System.out.println(s);
+							
+						}*//*
+						for (int j = 2; j < languages.length; j++){
+							System.out.println(j-1 + " " + languages[j]);
+						}*/
+				/*
+						Socket socket = new Socket(TRSname, TRSport); // Create and connect the socket
+						DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+
+						// Send first message
+						dOut.writeBytes(("TRQ t " + count + " " + words + "\n"));
+						//dOut.writeUTF("This is the first type of message.");
+						dOut.flush(); // Send off the data
+						*/
 						
 						
-						BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+						byte[] message = words.getBytes();
+;
+						Socket socket=new Socket(TRSname, TRSport);
+						OutputStream socketOutputStream = socket.getOutputStream();
+						socketOutputStream.write(message);
 						
-						outToServer.writeBytes(help[3] + "\n");
+						InputStream socketInputStream = socket.getInputStream();
 						
-						String modifiedSentence = inFromServer.readLine();
-						System.out.println("FROM SERVER:" + modifiedSentence);
-						 */
-						
-						//String sentence;
-						String modifiedSentence;
-						//BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-						Socket clientSocket1 = new Socket(TRSname, TRSport);
-						DataOutputStream outToServer = new DataOutputStream(clientSocket1.getOutputStream());
-						
-						BufferedReader inFromServer1 = new BufferedReader(new InputStreamReader(clientSocket1.getInputStream()));
-						//sentence = inFromUser.readLine();
-						outToServer.writeBytes("TRQ t " + count + " " + help[3]);
-						
-						//too much time
-						modifiedSentence = inFromServer1.readLine();
-						
-						System.out.println("Tempo");
-						System.out.println("FROM SERVER:" + modifiedSentence);
-						clientSocket1.close();
+						message = socketInputStream.read();
+						String printstuff = message.getData();
+						System.out.println(printstuff);
 						
 						
-						
-						
-						
+
+						/* // Send the second message
+						dOut.writeByte(2);
+						dOut.writeUTF("This is the second type of message.");
+						dOut.flush(); // Send off the data
+
+						// Send the third message
+						dOut.writeByte(3);
+						dOut.writeUTF("This is the third type of message (Part 1).");
+						dOut.writeUTF("This is the third type of message (Part 2).");
+						dOut.flush(); // Send off the data
+
+						// Send the exit message
+						dOut.writeByte(-1);
+						dOut.flush(); */
+
+						//dOut.close();
+				
 					}
 					
 					else{
