@@ -249,7 +249,9 @@ class trs{
 								int i = 3 + timesaux;
 								while ((line = ficheiro.readLine()) != null){
 									System.out.println("linha de ficheiro: " + line);
-									lineSplit = line.split("\\W");
+									lineSplit = line.split(" ");
+									System.out.println(lineSplit[0]);
+									System.out.println(lineSplit[1]);
 									if(recaux2[i] == lineSplit[0]){
 										traduzido += " "+lineSplit[1];
 										break;

@@ -12,6 +12,7 @@ def get_ip_address():
 
 TCP_IP = get_ip_address()
 TCP_PORT = 59000
+UDP_PORT = 58045
 BUFFER_SIZE = 1024
 message = ""
 
@@ -32,44 +33,47 @@ input_user=''
 
 
 while 1:
-	while 1:
-		input_user = raw_input()
-		print input_user, ' -- ', len(input_user)
-		input_split = input_user.split()
+	input_user = raw_input()
+	print input_user, ' -- ', len(input_user)
+	input_split = input_user.split()
 
-		if input_split[0]=='list':
-			message = "ULQ"
-			break
-		
-		
-		if input_split[0]=='request':
-			if (len(input_split)) > 2 and input_split[2]=='t':
-				palavras=input_split[3:]
-				message = 'TRQ t ' + str(len(palavras))
-				for p in palavras:
-					if p!='':
-						message += ' ' + p
-				message += '\n'
-				break
-
-			elif len(input_split) > 2 and input_split[2]=='f':
-				if (int(input_split[1])==1) :
-					message = 'TRQ f ' + input_split[3]
-					break
-			else:
-				print 'Dados errados, tente outra vez:'
-
-		
-		
+	if input_split[0]=='list':
+		message = "ULQ"
+		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+		s.sendto(message, (TCP_IP,UDP_PORT))
+		data = s.recv(BUFFER_SIZE)
+		s.close()
+	
+	elif input_split[0]=='request':
+		if (len(input_split)) > 2 and input_split[2]=='t':
+			palavras=input_split[3:]
+			message = 'TRQ t ' + str(len(palavras))
+			for p in palavras:
+				if p!='':
+					message += ' ' + p
+			message += '\n'
+			
+			
+		elif len(input_split) > 2 and input_split[2]=='f':
+			if (int(input_split[1])==1) :
+				message = 'TRQ f ' + input_split[3]
+				s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+				s.connect((TCP_IP, TCP_PORT))
+				s.send(message)
+				data = s.recv(BUFFER_SIZE)
+				s.close()
+				
 		else:
 			print 'Dados errados, tente outra vez:'
+	
+	elif input_split[0]=='exit':
+		break
+		
+	else:
+		print 'Dados errados, tente outra vez:'
 			
 
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect((TCP_IP, TCP_PORT))
-	s.send(message)
-	data = s.recv(BUFFER_SIZE)
-	s.close()
+	
  
 print "received data:", data
 
