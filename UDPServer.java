@@ -20,10 +20,6 @@ class UDPServer{
             ArrayList <ArrayList <String>> languages = new ArrayList <ArrayList <String>>();
 
             System.out.println(InetAddress.getLocalHost());
-
-            //File yourFile = new File("languages.txt");
-            //yourFile.createNewFile(); // if file already exists will do nothing 
-            //FileOutputStream oFile = new FileOutputStream(yourFile, false);
             
             DatagramSocket serverSocket = new DatagramSocket(tcs_port);
                   
@@ -110,7 +106,7 @@ class UDPServer{
                               
                               for (int j=0; j<n_languagues; j++) {
                                     ArrayList <String> l = languages.get(j); 
-                                    if(l.get(0).equals(help[1]) || l.get(1).equals(help[2]) || l.get(2).equals(help[3])){
+                                    if(l.get(0).equals(help[1]) || l.get(2).equals(help[3])){
                                           messege = m_srr + m_nok;
                                     }   
                               }
@@ -169,44 +165,22 @@ class UDPServer{
                               messege=m_sur+m_err;
                         }
                   }
-                  System.out.println("PASSOU DOS IFS");
 
-                  
+            int port = receivePacket.getPort();
 
-                  //--------------------------------------------------
+            //System.out.println("port: " + port);
 
-                  //if(!(messege.isEmpty())){
+            String capitalizedSentence = messege;//.toUpperCase();
 
-                        int port = receivePacket.getPort();
+            //System.out.println("capitalizedSentence: " + capitalizedSentence);
 
-                        //System.out.println("port: " + port);
+            sendData = capitalizedSentence.getBytes();
 
-                        String capitalizedSentence = messege;//.toUpperCase();
-
-                        //System.out.println("capitalizedSentence: " + capitalizedSentence);
-
-                        sendData = capitalizedSentence.getBytes();
-
-                        //System.out.println("sendData: " + sendData);
-                        
-                        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
-                        serverSocket.send(sendPacket);
-
-                        //System.out.println("sendPacket: " + sendPacket);
-
-                        /*if (help[0].equals("exit") && help.length==1) {
-                              System.out.println("Saiu");
-                              break;
-                        }*/
-
-                        /*else{
-                              System.out.println("--------------- " + help[0].equals("exit"));
-                              System.out.println("rip::::::::::: " + help.length );
-                              System.out.println("nao percebo nada disto " + help[0].length());
-                        }*/
-                  //}
+            //System.out.println("sendData: " + sendData);
+            
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+            serverSocket.send(sendPacket);
 
             }
-            //System.out.println ("parou o while");
       }
 }

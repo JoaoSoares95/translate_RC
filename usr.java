@@ -257,7 +257,7 @@ public class usr{
 						*/
 						
 						
-						byte[] message = words.getBytes();
+						/*byte[] message = words.getBytes();
 ;
 						Socket socket=new Socket(TRSname, TRSport);
 						OutputStream socketOutputStream = socket.getOutputStream();
@@ -267,7 +267,7 @@ public class usr{
 						
 						message = socketInputStream.read();
 						String printstuff = message.getData();
-						System.out.println(printstuff);
+						System.out.println(printstuff);*/
 						
 						
 

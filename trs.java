@@ -223,6 +223,7 @@ class trs{
 				
 				while(k!=recaux2.length){
 					System.out.println("recaux2["+k+"] :" + recaux2[k]);
+					k++;
 				}
 				
 				
@@ -252,6 +253,7 @@ class trs{
 									lineSplit = line.split(" ");
 									System.out.println(lineSplit[0]);
 									System.out.println(lineSplit[1]);
+									System.out.println(recaux2[i]);
 									if(recaux2[i].equals(lineSplit[0])){
 										traduzido += " "+lineSplit[1];
 										break;
@@ -303,16 +305,17 @@ class trs{
 				traduzido += "\n";
 				System.out.println( "A Enviar: "+traduzido);
 				DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
-				
+				System.out.println(" -- "+outToClient+" -- ")
 				outToClient.writeBytes(traduzido);
+				sockettcp.close();
 				
 				BufferedReader alive = null;
 		
-				System.out.println("Keep server alive?");
+				System.out.println("Keep server alive? [y=yes or n=no]");
 				alive = new BufferedReader(new InputStreamReader(System.in));
 				String input = alive.readLine();
 
-                if (!("y".equals(input)) || !("yes".equals(input))) {
+                if (!(input.equals("y"))) {
 					while(true){
 						System.out.println("Server is dead");
 						envaux1 = "SUN "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT+"\n";
