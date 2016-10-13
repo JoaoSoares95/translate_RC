@@ -1,5 +1,6 @@
 #!/usr/bin/env python
  
+import os
 import socket
 import sys
 import fcntl
@@ -19,14 +20,17 @@ message = ""
 languagues = []
 n_lan = 0
 
-size=len(sys.argv)
+size = len(sys.argv)
 
 if size == 3 or size == 5:
+	print "entroiu"
 	for i in range(1,size,2):
 		if sys.argv[i]=='-n':
-			TCP_IP=sys.argv[i+1]
+			UDP_IP=sys.argv[i+1]
+			print UDP_IP
 		elif sys.argv[i]=='-p':
-			UDP_PORT=sys.argv[i+1]
+			UDP_PORT=int(sys.argv[i+1])
+			print UDP_PORT
 
 
 print 'Number of arguments:', len(sys.argv), 'arguments.'
@@ -95,14 +99,16 @@ while 1:
 
 
 		elif len(input_split) > 2 and input_split[2]=='f':
-		
+			TCP_IP=data_split[1]
+			print TCP_IP
+			TCP_PORT=int(data_split[2])
 			ola=input_split[3]
 			f = open(ola,'rb')
 			l = f.read(BUFFER_SIZE)
-
 			
-			if (int(input_split[1])==1) :
-				message = 'TRQ f ' + input_split[3] + str(len(l))
+			
+			#if (int(input_split[1])==1) :
+			message = 'TRQ f ' + input_split[3]+ " " + str(os.stat(ola).st_size ) + " " + l +"\n"
 
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s.connect((TCP_IP, TCP_PORT))
@@ -111,6 +117,7 @@ while 1:
 
 			data = s.recv(BUFFER_SIZE)
 			s.close()
+			print "received data:", data
 
 		else:
 			print 'Dados errados, tente outra vez:'
