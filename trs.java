@@ -163,7 +163,7 @@ class trs{
 			System.exit(1);
 		}
 		
-		InetAddress TRSIP = InetAddress.getByName(TCSNAME);
+		TRSIP = InetAddress.getByName(TCSNAME);
 		
 		/* Dar inicio ao registo em TCS */
 		DatagramSocket socketudp = new DatagramSocket();
@@ -212,24 +212,72 @@ class trs{
 				
 				int times;
 				int timesaux;
-				String traduzido = "TRR "+recaux2[0]+ " " + recaux[1] +" ";
+				String line = "";
+				String[] lineSplit;
+				String traduzido = "TRR "+recaux2[0]+ " " + recaux2[1] +" ";
+				String file = "";
+				
+				
+				
 				if(recaux2[0].equals("TRQ")){
 					if(recaux2[1].equals("t")){
-						times = Integer.parseInt(recaux[2]);
+						if (LANGUAGE.equals("Ingles") || LANGUAGE.equals("ingles")){
+							file = "text_translation.txt";
+						}
+						else if (LANGUAGE.equals("Frances") || LANGUAGE.equals("frances")){
+							file = "text_translation1.txt";
+						}
+						else if (LANGUAGE.equals("Holandes") || LANGUAGE.equals("holandes")){
+							file = "text_translation_hol.txt";
+						}
+						else{
+							file = "text_translate2.txt";
+						}
+						times = Integer.parseInt(recaux2[2]);
 						timesaux = 0;
-						BufferedReader ficheiro = new BufferedReader(new FileReader(""));
 						try{
-							
-							while (timesaux==times){
+							while (timesaux != times){
+								BufferedReader ficheiro = new BufferedReader(new FileReader(file));
 								int i = 3 + timesaux;
-								recaux2[i]
+								while ((line = ficheiro.readLine()) != null){
+									lineSplit = line.split(" ");
+									if(recaux2[i] == lineSplit[0]){
+										traduzido += lineSplit[1]+" ";
+										break;
+									}
+								}
+								timesaux += 1;
 							}
+						}
+						catch(Exception e){
+							System.out.println("error reading the file");
 						}
 					}
 					else if(recaux2[1].equals("f")){
-						times = Integer.parseInt(recaux[2]);
-						while (times!=0){
-							
+						try{
+							BufferedReader ficheiro = new BufferedReader(new FileReader(file));
+							String nomeTraduzido ="" ;
+							while ((line = ficheiro.readLine()) != null){
+								lineSplit = line.split(" ");
+								if(recaux2[3] == lineSplit[0]){
+									traduzido += lineSplit[1]+" ";
+									nomeTraduzido = lineSplit[1];
+									break;
+								}
+							}
+							try{
+								File HeyFile= new File(nomeTraduzido);
+								BufferedImage image = ImageIO.read(HeyFile);
+								String data = "";
+								data = image.toString();
+								traduzido += file.length() + " " + data + "\n";
+							}
+							catch (IOException e) { 
+								System.out.println("error reading the file and transforming to data");
+							}
+						}
+						catch(Exception e){
+							System.out.println("error reading the file");
 						}
 					}
 					else{
@@ -240,8 +288,11 @@ class trs{
 					System.out.println("Wrong Protocol!\n");
 				}
 				
+				
+				
 				DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
 				
+				outToClient.writeBytes(traduzido);
 				
 				BufferedReader alive = null;
 		
