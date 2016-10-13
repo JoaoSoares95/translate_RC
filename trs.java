@@ -211,7 +211,7 @@ class trs{
 				recaux1 = inFromClient.readLine();
 				//recaux1 = rec.toString();
 				System.out.println("Received From Cliente: " + recaux1);
-				recaux2=recaux1.split("\\W");
+				recaux2=recaux1.split(" ");
 				
 				int times;
 				int timesaux;
@@ -252,7 +252,7 @@ class trs{
 									lineSplit = line.split(" ");
 									System.out.println(lineSplit[0]);
 									System.out.println(lineSplit[1]);
-									if(recaux2[i] == lineSplit[0]){
+									if(recaux2[i].equals(lineSplit[0])){
 										traduzido += " "+lineSplit[1];
 										break;
 									}
@@ -271,7 +271,7 @@ class trs{
 							while ((line = ficheiro.readLine()) != null){
 								System.out.println("linha de ficheiro: " + line);
 								lineSplit = line.split(" ");
-								if(recaux2[3] == lineSplit[0]){
+								if(recaux2[3]. equals(lineSplit[0])){
 									traduzido += " " + lineSplit[1];
 									nomeTraduzido = lineSplit[1];
 									break;
