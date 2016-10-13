@@ -95,8 +95,23 @@ while 1:
 
 
 		elif len(input_split) > 2 and input_split[2]=='f':
+		
+			ola=input_split[3]
+			f = open(ola,'rb')
+			l = f.read(BUFFER_SIZE)
+
+			
 			if (int(input_split[1])==1) :
-				message = 'TRQ f ' + input_split[3]
+				message = 'TRQ f ' + input_split[3] + str(len(l))
+
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s.connect((TCP_IP, TCP_PORT))
+			s.send(message)
+			s.send(l)
+
+			data = s.recv(BUFFER_SIZE)
+			s.close()
+
 		else:
 			print 'Dados errados, tente outra vez:'
 
