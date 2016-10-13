@@ -4,7 +4,7 @@ import socket
  
  
 TCP_IP = '194.210.159.18'
-TCP_PORT = 58045
+TCP_PORT = 59000
 BUFFER_SIZE = 20  # Normally 1024, but we want fast response
  
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
