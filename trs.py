@@ -93,11 +93,38 @@ while 1:
 	if input_split[0] == "TRQ":
 		if len(input_split) >= 4:
 		
+			#Vai receber palavras
 			if input_split[1] == "t":
 				words = input_split[3:]
 				print words
-			
+				
+				returned_words = ""
+				f = open('text_translation.txt', 'r')
+				file_line = ""
+				while file_line != null:
+					file_line = f.readline()
+					string_file = file_line.split()
+					for j in words:
+						if j == string_file[0]:
+							returned_words += string_file[1]
+							
+			#Vai receber um ficheiro
 			elif input_split[1] == "f":
+				file = input_split[3]
+				returned_file = ""
+				f = open('file_translation.txt', 'r')
+				file_line = ""
+				while file_line != null:
+					file_line = f.readline()
+					string_file = file_line.split()
+					if string_file[0] == file:
+						returned_file = string_file[1]
+						break
+						
+				chocolate = open(returned_file,'rb')
+				morango = chocolate.read(BUFFER_SIZE)
+				s.send(morango)
+				
 				file_name = input_split[2]
 				file_size = input_split[3]
 				file_data = input_split[4]
