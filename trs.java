@@ -106,16 +106,16 @@ class trs{
 				if(recaux2[0].equals("TRQ")){
 					if(recaux2[1].equals("t")){
 						if (LANGUAGE.equals("Ingles") || LANGUAGE.equals("ingles")){
-							file = "text_translation.txt";
+							file = "Files/text_translation.txt";
 						}
 						else if (LANGUAGE.equals("Frances") || LANGUAGE.equals("frances")){
-							file = "text_translation1.txt";
+							file = "Files/text_translation1.txt";
 						}
 						else if (LANGUAGE.equals("Holandes") || LANGUAGE.equals("holandes")){
-							file = "text_translation_hol.txt";
+							file = "Files/text_translation_hol.txt";
 						}
 						else{
-							file = "text_translate2.txt";
+							file = "Files/text_translate2.txt";
 						}
 						System.out.println("file escolhido:"+file);
 						times = Integer.parseInt(recaux2[2]);
@@ -141,7 +141,7 @@ class trs{
 					}
 					else if(recaux2[1].equals("f")){
 						try{
-							BufferedReader ficheiro = new BufferedReader(new FileReader("file_translation.txt"));
+							BufferedReader ficheiro = new BufferedReader(new FileReader("Files/file_translation.txt"));
 							String nomeTraduzido ="";
 							while ((line = ficheiro.readLine()) != null){
 								System.out.println("linha de ficheiro: " + line);
@@ -154,7 +154,7 @@ class trs{
 							try{
 								
 								FileInputStream fileInputStream = null;
-								File HeyFile= new File(nomeTraduzido);
+								File HeyFile= new File("Files/"+nomeTraduzido);
 								byte[] bytes = new byte[(int) HeyFile.length()];
 								//convert file into array of bytes
 								fileInputStream = new FileInputStream(HeyFile);
