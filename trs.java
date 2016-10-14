@@ -152,7 +152,9 @@ class trs{
 								while ((line = ficheiro.readLine()) != null){
 									System.out.println("linha de ficheiro: " + line);
 									lineSplit = line.split(" ");
-									if(recaux2[3].equals(lineSplit[0])){
+									System.out.println(lineSplit[0]);
+                                                                        System.out.println(lineSplit[1]);
+									if(lineSplit[0].equals(recaux2[2]){
 										traduzido += " " + lineSplit[1];
 										nomeTraduzido = lineSplit[1];
 										break;
@@ -165,7 +167,7 @@ class trs{
 									data = image.toString();
 									traduzido += " " + nomeTraduzido + " " + file.length() + " " + data;
 								}
-								catch (IOException e) { 
+								catch (IOException e) {
 									System.out.println("error reading the file and transforming to data");
 								}
 							}
