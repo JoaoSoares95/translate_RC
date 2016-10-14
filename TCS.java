@@ -4,7 +4,7 @@ import java.lang.*;
 import java.*;
 import java.util.*;
 
-class UDPServer{
+class TCS{
 
       public static void main(String args[]) throws Exception{
             int tcs_port = 58045;

@@ -5,7 +5,7 @@ import java.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-class trs{
+class TRS{
 	
 	public static void main(String args[]) throws Exception{
 		
@@ -154,14 +154,14 @@ class trs{
 							try{
 								
 								FileInputStream fileInputStream = null;
-								File HeyFile= new File("Files/"+nomeTraduzido);
+								File HeyFile= new File("Images/"+nomeTraduzido);
 								byte[] bytes = new byte[(int) HeyFile.length()];
 								//convert file into array of bytes
 								fileInputStream = new FileInputStream(HeyFile);
 								fileInputStream.read(bytes);
 								fileInputStream.close();
 								String data = new String(bytes , "UTF-8");
-								traduzido += " " + nomeTraduzido + " " + HeyFile.length() + " " + data + "\n";
+								traduzido += " " + nomeTraduzido + " " + HeyFile.length() + " " + data ;
 							}
 							catch (IOException e) {
 								System.out.println("error reading the file and transforming to data");
