@@ -154,7 +154,7 @@ class trs{
 									lineSplit = line.split(" ");
 									System.out.println(lineSplit[0]);
                                                                         System.out.println(lineSplit[1]);
-									if(lineSplit[0].equals(recaux2[2]){
+									if(lineSplit[0].equals(recaux2[2])){
 										traduzido += " " + lineSplit[1];
 										nomeTraduzido = lineSplit[1];
 										break;
