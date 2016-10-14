@@ -80,12 +80,12 @@ class trs{
 				System.exit(1);
 			}
 			else{
-				System.out.println("SRR Ok");
 
+				/* Criacao do canal de comunicacao */
+				ServerSocket sockettcp = new ServerSocket(TRSPORT);
+				
 				/*Criacao de TCP*/
 				while(true){
-					/* Criacao do canal de comunicacao */
-					ServerSocket sockettcp = new ServerSocket(TRSPORT);
 					
 					/* Canal de comunicacao aceite */
 					Socket socketaccept = sockettcp.accept();
@@ -136,6 +136,9 @@ class trs{
 									while ((line = ficheiro.readLine()) != null){
 										System.out.println("linha de ficheiro: " + line);
 										lineSplit = line.split(" ");
+										System.out.println(lineSplit[0]);
+										System.out.println(lineSplit[1]);
+										System.out.println(recaux2[i]);
 										if(recaux2[i].equals(lineSplit[0])){
 											traduzido += " "+lineSplit[1];
 											break;
@@ -150,11 +153,13 @@ class trs{
 						}
 						else if(recaux2[1].equals("f")){
 							try{
-								BufferedReader ficheiro = new BufferedReader(new FileReader("file_translation.txt"));
+								BufferedReader ficheiro = new BufferedReader(new FileReader("Imagens/file_translation.txt"));
 								String nomeTraduzido ="";
 								while ((line = ficheiro.readLine()) != null){
 									System.out.println("linha de ficheiro: " + line);
 									lineSplit = line.split(" ");
+									System.out.println(lineSplit[0]);
+                                                                        System.out.println(lineSplit[1]);
 									if(lineSplit[0].equals(recaux2[2])){
 										nomeTraduzido = lineSplit[1];
 										break;
@@ -187,37 +192,38 @@ class trs{
 					else{
 						System.out.println("Wrong Protocol!\n");
 					}
-					
-					System.out.println( "A Enviar: "+traduzido);
-					DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
 
+					System.out.println( "A Enviar: "+traduzido);
+					DataOutputStream outToClient = null;
+					outToClient = new DataOutputStream(socketaccept.getOutputStream());
 					outToClient.writeBytes(traduzido);
 
+
 					BufferedReader alive = null;
-			
+
 					System.out.println("Keep server alive? [y=yes or n=no]");
 					alive = new BufferedReader(new InputStreamReader(System.in));
 					String input = alive.readLine();
 
-	                if (!(input.equals("y"))) {
+	                		if (!(input.equals("y"))) {
 						while(true){
-							System.out.println("Server is dead");
 							envaux1 = "SUN "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT+"\n";
 
 							env = envaux1.getBytes();
 							sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
 							socketudp.send(sendPacket);
-							
+
 							receivePacket = new DatagramPacket(rec, rec.length);
 							socketudp.receive(receivePacket);
 							sentence = new String(receivePacket.getData());
-							
+
 
 							if(!sentence.startsWith("SUR OK")){
 								System.out.println("SUR ERR");
 								System.out.println("Try kill the server again\n");
 							}
-							else{			
+							else{
+								sockettcp.close();
 								System.exit(0);
 							}
 						}
