@@ -136,9 +136,6 @@ class trs{
 									while ((line = ficheiro.readLine()) != null){
 										System.out.println("linha de ficheiro: " + line);
 										lineSplit = line.split(" ");
-										System.out.println(lineSplit[0]);
-										System.out.println(lineSplit[1]);
-										System.out.println(recaux2[i]);
 										if(recaux2[i].equals(lineSplit[0])){
 											traduzido += " "+lineSplit[1];
 											break;
@@ -153,13 +150,11 @@ class trs{
 						}
 						else if(recaux2[1].equals("f")){
 							try{
-								BufferedReader ficheiro = new BufferedReader(new FileReader("Imagens/file_translation.txt"));
+								BufferedReader ficheiro = new BufferedReader(new FileReader("file_translation.txt"));
 								String nomeTraduzido ="";
 								while ((line = ficheiro.readLine()) != null){
 									System.out.println("linha de ficheiro: " + line);
 									lineSplit = line.split(" ");
-									System.out.println(lineSplit[0]);
-                                                                        System.out.println(lineSplit[1]);
 									if(lineSplit[0].equals(recaux2[2])){
 										nomeTraduzido = lineSplit[1];
 										break;
@@ -195,10 +190,9 @@ class trs{
 					
 					System.out.println( "A Enviar: "+traduzido);
 					DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
+
 					outToClient.writeBytes(traduzido);
-					outToClient.flush();					
-					sockettcp.close();
-					
+
 					BufferedReader alive = null;
 			
 					System.out.println("Keep server alive? [y=yes or n=no]");
