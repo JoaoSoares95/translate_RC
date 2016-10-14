@@ -116,6 +116,7 @@ while 1:
 			s.connect((TCP_IP, TCP_PORT))
 			s.send(message)
 			s.send(l)
+			s.settimeout(None)
 
 			data = s.recv(BUFFER_SIZE)
 			s.close()
