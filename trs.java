@@ -13,9 +13,11 @@ class trs{
 			int TCSPORT = 58045;
 			int TRSPORT = 59000;
 			String TCSNAME = "localhost";
-			InetAddress TRSIP = InetAddress.getByName(TCSNAME);
+			InetAddress TRSIP;
 			
 			System.out.println(InetAddress.getLocalHost().getHostAddress());
+
+			
 
 			String LANGUAGE = "";
 
@@ -28,6 +30,7 @@ class trs{
 					//System.out.println(" -- " +i + " -- " + args[i] + " -- ");
 					if(args[i].equals("-p")){
 						TRSPORT = Integer.parseInt(args[i+1]);
+						
 					}
 					else if (args[i].equals("-n")){
 						TCSNAME = args[i+1];
@@ -43,7 +46,7 @@ class trs{
 				System.exit(1);
 			}
 			
-			TRSIP = InetAddress.getByName(TCSNAME);
+			TRSIP = InetAddress.getLocalHost();
 			
 			/* Dar inicio ao registo em TCS */
 			DatagramSocket socketudp = new DatagramSocket();
@@ -56,10 +59,12 @@ class trs{
 			String[] envaux2;
 			
 			/* Envio de registo */
-			envaux1 = "SRG "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT + "\n";
+			envaux1 = "SRG " + LANGUAGE + " " + TRSIP.getHostAddress() + " " + TRSPORT + "\n";
+
+			System.out.println(LANGUAGE);
 
 			env = envaux1.getBytes();
-			DatagramPacket sendPacket = new DatagramPacket(env, env.length, TRSIP, TCSPORT);
+			DatagramPacket sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
 			socketudp.send(sendPacket);
 
 			DatagramPacket receivePacket = new DatagramPacket(rec, rec.length);
@@ -75,7 +80,8 @@ class trs{
 				System.exit(1);
 			}
 			else{
-				
+				System.out.println("SRR Ok");
+
 				/*Criacao de TCP*/
 				while(true){
 					/* Criacao do canal de comunicacao */
@@ -147,7 +153,7 @@ class trs{
 						}
 						else if(recaux2[1].equals("f")){
 							try{
-								BufferedReader ficheiro = new BufferedReader(new FileReader("file_translation.txt"));
+								BufferedReader ficheiro = new BufferedReader(new FileReader("Imagens/file_translation.txt"));
 								String nomeTraduzido ="";
 								while ((line = ficheiro.readLine()) != null){
 									System.out.println("linha de ficheiro: " + line);
@@ -190,6 +196,7 @@ class trs{
 					System.out.println( "A Enviar: "+traduzido);
 					DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
 					outToClient.writeBytes(traduzido);
+					outToClient.flush();					
 					sockettcp.close();
 					
 					BufferedReader alive = null;
