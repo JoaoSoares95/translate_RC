@@ -155,17 +155,21 @@ class trs{
 									System.out.println(lineSplit[0]);
                                                                         System.out.println(lineSplit[1]);
 									if(lineSplit[0].equals(recaux2[2])){
-										traduzido += " " + lineSplit[1];
 										nomeTraduzido = lineSplit[1];
 										break;
 									}
 								}
 								try{
+									
+									FileInputStream fileInputStream = null;
 									File HeyFile= new File(nomeTraduzido);
-									BufferedImage image = ImageIO.read(HeyFile);
-									String data = "";
-									data = image.toString();
-									traduzido += " " + nomeTraduzido + " " + file.length() + " " + data;
+									byte[] bytes = new byte[(int) HeyFile.length()];
+									//convert file into array of bytes
+									fileInputStream = new FileInputStream(HeyFile);
+									fileInputStream.read(bytes);
+									fileInputStream.close();
+									String data = new String(bytes , "UTF-8");
+									traduzido += " " + nomeTraduzido + " " + HeyFile.length() + " " + data + "\n";
 								}
 								catch (IOException e) {
 									System.out.println("error reading the file and transforming to data");
@@ -183,10 +187,8 @@ class trs{
 						System.out.println("Wrong Protocol!\n");
 					}
 					
-					traduzido += "\n";
 					System.out.println( "A Enviar: "+traduzido);
 					DataOutputStream outToClient = new DataOutputStream(socketaccept.getOutputStream());
-					System.out.println(" -- "+outToClient+" -- ");
 					outToClient.writeBytes(traduzido);
 					sockettcp.close();
 					
