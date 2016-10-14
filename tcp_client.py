@@ -31,6 +31,8 @@ if size == 3 or size == 5:
 		elif sys.argv[i]=='-p':
 			UDP_PORT=int(sys.argv[i+1])
 			print UDP_PORT
+else:
+	print "Creation of Server abort"
 
 
 print 'Number of arguments:', len(sys.argv), 'arguments.'
@@ -98,7 +100,7 @@ while 1:
 			print "received data:", data
 
 
-		elif len(input_split) > 2 and input_split[2]=='f':
+		elif len(input_split) > 3 and input_split[2]=='f':
 			TCP_IP=data_split[1]
 			print TCP_IP
 			TCP_PORT=int(data_split[2])
