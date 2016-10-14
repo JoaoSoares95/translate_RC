@@ -51,10 +51,10 @@ class trs{
 			/* Dar inicio ao registo em TCS */
 			DatagramSocket socketudp = new DatagramSocket();
 			
-			byte[] rec = new byte[1024];
+			byte[] rec = new byte[10240];
 			String recaux1;
 			String[] recaux2;
-			byte[] env = new byte[1024];
+			byte[] env = new byte[10240];
 			String envaux1;
 			String[] envaux2;
 			
@@ -153,7 +153,7 @@ class trs{
 						}
 						else if(recaux2[1].equals("f")){
 							try{
-								BufferedReader ficheiro = new BufferedReader(new FileReader("Imagens/file_translation.txt"));
+								BufferedReader ficheiro = new BufferedReader(new FileReader("file_translation.txt"));
 								String nomeTraduzido ="";
 								while ((line = ficheiro.readLine()) != null){
 									System.out.println("linha de ficheiro: " + line);
@@ -195,9 +195,9 @@ class trs{
 
 					System.out.println( "A Enviar: "+traduzido);
 					DataOutputStream outToClient = null;
+
 					outToClient = new DataOutputStream(socketaccept.getOutputStream());
 					outToClient.writeBytes(traduzido);
-
 
 					BufferedReader alive = null;
 
