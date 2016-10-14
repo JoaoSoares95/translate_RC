@@ -27,3 +27,9 @@ Quantas traduções diferentes existem?
 Existem 4 traduções de palavras (Inglês, Francês, Holandês , Dinamarquês)
 Existe 1 tradução de ficheiros de imagem (Inglês)
 
+Como fazer kill ao TRS ? 
+A cada comunicação com um user, o TRS pergunta na linha de comandos
+se o utilizador que o controla se quer ou não terminar o programa.
+
+Como fazer kill ao TCS ?
+Necessita apenas de fazer um ctrl+c.
