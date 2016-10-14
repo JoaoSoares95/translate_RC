@@ -4,3 +4,4 @@ all:
 
 clean:
 	rm *.class
+	rm *.jpg

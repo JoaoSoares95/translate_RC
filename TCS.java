@@ -21,10 +21,6 @@ class TCS{
 
             System.out.println(InetAddress.getLocalHost().getHostName());
 
-            //File yourFile = new File("languages.txt");
-            //yourFile.createNewFile(); // if file already exists will do nothing 
-            //FileOutputStream oFile = new FileOutputStream(yourFile, false);
-            
             DatagramSocket serverSocket = new DatagramSocket(tcs_port);
                   
             while (true){
@@ -34,12 +30,8 @@ class TCS{
 
                   String sentence = "", messege = "";
 
-                  
-
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   serverSocket.receive(receivePacket);
-
-                  //System.out.println("receiveData : ----------------- " + receiveData);
 
                   sentence = new String( receivePacket.getData());
 
@@ -47,19 +39,16 @@ class TCS{
 
                   String[] help = sentence.split(" ");
 
-                  //System.out.println("HELP                           - "+help[0]+" n:" + help.length);
-
                   InetAddress IPAddress = receivePacket.getAddress();
 
-                  //System.out.println("IPAddress: " + IPAddress);
 
                   /****************************
                    *          Client          *
                    ****************************/
 
 
-                  if (help[0].startsWith("ULQ")){               //enviar a lista de linguagens
-                        System.out.println("ULQ");          //
+                  if (help[0].startsWith("ULQ")){
+                        System.out.println("ULQ");
 
 
                         String numero=Integer.toString(n_languagues);
@@ -83,8 +72,6 @@ class TCS{
                       for (int i = 0; i < n_languagues ; i++ ) {
                           
                           ArrayList <String> l = languages.get(i);
-                          
-                          System.out.println(help[1] + " " + help[1].length() + " -- " + l.get(0));
                           
                           if (help[1].startsWith(l.get(0))){
                               messege = m_unr + l.get(1) + " " + l.get(2) + "\n";
@@ -169,44 +156,20 @@ class TCS{
                               messege=m_sur+m_err;
                         }
                   }
-                  System.out.println("PASSOU DOS IFS");
-
-                  
-
-                  //--------------------------------------------------
-
-                  //if(!(messege.isEmpty())){
 
                         int port = receivePacket.getPort();
 
-                        //System.out.println("port: " + port);
 
-                        String capitalizedSentence = messege;//.toUpperCase();
+                        String capitalizedSentence = messege;
 
-                        //System.out.println("capitalizedSentence: " + capitalizedSentence);
 
                         sendData = capitalizedSentence.getBytes();
 
-                        //System.out.println("sendData: " + sendData);
                         
                         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
                         serverSocket.send(sendPacket);
 
-                        //System.out.println("sendPacket: " + sendPacket);
-
-                        /*if (help[0].equals("exit") && help.length==1) {
-                              System.out.println("Saiu");
-                              break;
-                        }*/
-
-                        /*else{
-                              System.out.println("--------------- " + help[0].equals("exit"));
-                              System.out.println("rip::::::::::: " + help.length );
-                              System.out.println("nao percebo nada disto " + help[0].length());
-                        }*/
-                  //}
 
             }
-            //System.out.println ("parou o while");
     }
 }

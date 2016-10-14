@@ -14,10 +14,6 @@ class TRS{
 		int TRSPORT = 59000;
 		String TCSNAME = "localhost";
 		InetAddress TRSIP;
-		
-		System.out.println(InetAddress.getLocalHost().getHostAddress());
-
-		
 
 		String LANGUAGE = "";
 
@@ -26,7 +22,7 @@ class TRS{
 		if (size == 1 || size ==3 || size==5 || size==7){
 			LANGUAGE = args[0];
 			for (int i=1; i < size; i+=2) {
-				//System.out.println(" -- " +i + " -- " + args[i] + " -- ");
+				
 				if(args[i].equals("-p")){
 					TRSPORT = Integer.parseInt(args[i+1]);
 					
@@ -60,8 +56,6 @@ class TRS{
 		/* Envio de registo */
 		envaux1 = "SRG " + LANGUAGE + " " + TRSIP.getHostAddress() + " " + TRSPORT + "\n";
 
-		System.out.println(LANGUAGE);
-
 		env = envaux1.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(env, env.length, InetAddress.getByName(TCSNAME), TCSPORT);
 		socketudp.send(sendPacket);
@@ -69,8 +63,6 @@ class TRS{
 		DatagramPacket receivePacket = new DatagramPacket(rec, rec.length);
 		socketudp.receive(receivePacket);
 		String sentence = new String(receivePacket.getData());
-		
-		System.out.println(sentence);
 
 		if(!sentence.startsWith("SRR OK")){
 			System.out.println("SRR ERR");
@@ -78,6 +70,7 @@ class TRS{
 		}
 		else{
 
+			System.out.println("Servidor Conectado");
 			/* Criacao do canal de comunicacao */
 			ServerSocket sockettcp = new ServerSocket(TRSPORT);
 			
@@ -117,15 +110,15 @@ class TRS{
 						else{
 							file = "Files/text_translate2.txt";
 						}
-						System.out.println("file escolhido:"+file);
+
 						times = Integer.parseInt(recaux2[2]);
 						timesaux = 0;
+
 						try{
 							while (timesaux != times){
 								BufferedReader ficheiro = new BufferedReader(new FileReader(file));
 								int i = 3 + timesaux;
 								while ((line = ficheiro.readLine()) != null){
-									System.out.println("linha de ficheiro: " + line);
 									lineSplit = line.split(" ");
 									if(recaux2[i].equals(lineSplit[0])){
 										traduzido += " "+lineSplit[1];
@@ -135,16 +128,18 @@ class TRS{
 								timesaux += 1;
 							}
 						}
+
 						catch(Exception e){
 							System.out.println("error reading the file");
 						}
 					}
+
 					else if(recaux2[1].equals("f")){
 						try{
 							BufferedReader ficheiro = new BufferedReader(new FileReader("Files/file_translation.txt"));
 							String nomeTraduzido ="";
 							while ((line = ficheiro.readLine()) != null){
-								System.out.println("linha de ficheiro: " + line);
+
 								lineSplit = line.split(" ");
 								if(lineSplit[0].equals(recaux2[2])){
 									nomeTraduzido = lineSplit[1];
@@ -156,6 +151,7 @@ class TRS{
 								FileInputStream fileInputStream = null;
 								File HeyFile= new File("Images/"+nomeTraduzido);
 								byte[] bytes = new byte[(int) HeyFile.length()];
+								
 								//convert file into array of bytes
 								fileInputStream = new FileInputStream(HeyFile);
 								fileInputStream.read(bytes);
@@ -163,18 +159,22 @@ class TRS{
 								String data = new String(bytes , "UTF-8");
 								traduzido += " " + nomeTraduzido + " " + HeyFile.length() + " " + data ;
 							}
+
 							catch (IOException e) {
 								System.out.println("error reading the file and transforming to data");
 							}
 						}
+
 						catch(Exception e){
 							System.out.println("error reading the file");
 						}
 					}
+
 					else{
 						System.out.println("Wrong Protocol!\n");
 					}
 				}
+
 				else{
 					System.out.println("Wrong Protocol!\n");
 				}
@@ -192,6 +192,7 @@ class TRS{
 				String input = alive.readLine();
 
 				if (!(input.equals("y"))) {
+
 					while(true){
 						envaux1 = "SUN "+LANGUAGE+" "+TRSIP.getHostAddress()+" "+TRSPORT+"\n";
 
@@ -205,7 +206,7 @@ class TRS{
 
 
 						if(!sentence.startsWith("SUR OK")){
-							System.out.println("SUR ERR");
+							System.out.println(sentence);
 							System.out.println("Try kill the server again\n");
 						}
 						else{
